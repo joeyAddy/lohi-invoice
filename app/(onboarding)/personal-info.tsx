@@ -1,7 +1,11 @@
 import { Header } from "@/components/shared";
 import Badge from "@/components/ui/badge";
 import Button from "@/components/ui/button";
-import { DefaultInput } from "@/components/ui/inputs";
+import {
+  DefaultInput,
+  PhoneInput,
+  type CountryData,
+} from "@/components/ui/inputs";
 import TermsAgreement from "@/components/ui/terms-agreement";
 import { useOnboarding } from "@/lib";
 import { validatePersonalInfoForm } from "@/lib/utils/validation";
@@ -15,6 +19,9 @@ const PersonalInfo = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(
+    null
+  );
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   // Validation states
@@ -56,10 +63,16 @@ const PersonalInfo = () => {
       return;
     }
 
+    // Format phone number with country code if available
+    const fullPhoneNumber =
+      selectedCountry && phoneNumber
+        ? `+${selectedCountry.phonecode}${phoneNumber}`
+        : phoneNumber;
+
     const result = await updatePersonalInfo({
       firstName: firstName.trim(),
       lastName: lastName.trim(),
-      phoneNumber: phoneNumber.trim() || undefined,
+      phoneNumber: fullPhoneNumber.trim() || undefined,
     });
 
     if (result.success) {
@@ -144,7 +157,7 @@ const PersonalInfo = () => {
             className="mb-6"
           />
 
-          <DefaultInput
+          <PhoneInput
             placeholder="Phone number (optional)"
             value={phoneNumber}
             onChangeText={(value) => {
@@ -158,11 +171,9 @@ const PersonalInfo = () => {
                 setPhoneNumberError(validation.phoneNumber.error || "");
               }
             }}
+            onChangeCountry={setSelectedCountry}
             error={phoneNumberError}
-            leftIcon={
-              <Ionicons name="call-outline" size={20} color="#a4a4a4" />
-            }
-            keyboardType="phone-pad"
+            defaultCountry="US"
           />
         </View>
 
