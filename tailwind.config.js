@@ -123,31 +123,139 @@ module.exports = {
         "7xl": "12px",
       },
       fontFamily: {
-        playfair: ["Playfair Display", "serif"],
-        "dm-sans": ["DM Sans", "sans-serif"],
+        sans: ["DMSans-Regular", "DM Sans", "sans-serif"], // Default font - DM Sans
+        serif: ["DMSans-Regular", "DM Sans", "sans-serif"], // Override serif as well
+        "dm-sans": ["DMSans-Regular"],
+        "dm-sans-medium": ["DMSans-Medium"],
+        "dm-sans-bold": ["DMSans-Bold"],
+        "dm-sans-italic": ["DMSans-Italic"],
+        "playfair-bold": ["PlayfairDisplay-Bold"], // Headers only
+        "playfair-black": ["PlayfairDisplay-Black"], // Headers only
       },
       fontSize: {
         // Headings - Playfair Display Bold
-        "h-1": ["48px", { lineHeight: "1.2", fontWeight: "700" }],
-        "h-2": ["40px", { lineHeight: "1.2", fontWeight: "700" }],
-        "h-3": ["34px", { lineHeight: "1.2", fontWeight: "700" }],
-        "h-4": ["28px", { lineHeight: "1.2", fontWeight: "700" }],
-        "h-5": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
-        "h-6": ["20px", { lineHeight: "1.3", fontWeight: "500" }],
-        // Body text - DM Sans Regular
-        "b-1": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
-        "b-2": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
-        "b-3": ["12px", { lineHeight: "1.5", fontWeight: "400" }],
-        "b-4": ["10px", { lineHeight: "1.5", fontWeight: "400" }],
-        // Component labels - DM Sans Regular
-        "label-xxs": ["10px", { lineHeight: "1.4", fontWeight: "400" }],
-        "label-xs": ["12px", { lineHeight: "1.4", fontWeight: "400" }],
-        "label-s": ["14px", { lineHeight: "1.4", fontWeight: "400" }],
-        "label-m": ["16px", { lineHeight: "1.4", fontWeight: "400" }],
-        "label-l": ["20px", { lineHeight: "1.3", fontWeight: "500" }],
+        "h-1": [
+          "48px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "h-2": [
+          "40px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "h-3": [
+          "34px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "h-4": [
+          "28px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "h-5": [
+          "24px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "h-6": [
+          "20px",
+          {
+            lineHeight: "1.3",
+            fontWeight: "500",
+          },
+        ],
+        // Body text - DM Sans
+        "b-1": [
+          "16px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "400",
+          },
+        ],
+        "b-2": [
+          "14px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "400",
+          },
+        ],
+        "b-3": [
+          "12px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "400",
+          },
+        ],
+        "b-4": [
+          "10px",
+          {
+            lineHeight: "1.5",
+            fontWeight: "400",
+          },
+        ],
+        // Component labels - DM Sans
+        "label-xxs": [
+          "10px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "400",
+          },
+        ],
+        "label-xs": [
+          "12px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "400",
+          },
+        ],
+        "label-s": [
+          "14px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "400",
+          },
+        ],
+        "label-m": [
+          "16px",
+          {
+            lineHeight: "1.4",
+            fontWeight: "400",
+          },
+        ],
+        "label-l": [
+          "20px",
+          {
+            lineHeight: "1.3",
+            fontWeight: "500",
+          },
+        ],
         // Component headings - Playfair Display Bold
-        "heading-m": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
-        "heading-l": ["34px", { lineHeight: "1.2", fontWeight: "700" }],
+        "heading-m": [
+          "24px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
+        "heading-l": [
+          "34px",
+          {
+            lineHeight: "1.2",
+            fontWeight: "700",
+          },
+        ],
       },
     },
   },

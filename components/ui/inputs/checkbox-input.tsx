@@ -49,7 +49,7 @@ const CheckboxInput = React.forwardRef<View, CheckboxInputProps>(
       md: {
         checkbox: "w-5 h-5",
         icon: 16,
-        text: "text-label-s",
+        text: "text-label-m",
       },
       lg: {
         checkbox: "w-6 h-6",
@@ -83,8 +83,8 @@ const CheckboxInput = React.forwardRef<View, CheckboxInputProps>(
     );
 
     // Label classes
-    const labelClasses = cn("text-b-1 font-semibold", sizeConfig[size].text, {
-      "text-neutral-900": !disabled && !error,
+    const labelClasses = cn("font-semibold", sizeConfig[size].text, {
+      "text-primary": !disabled && !error,
       "text-error-500": !disabled && error,
       "text-neutral-500": disabled,
     });

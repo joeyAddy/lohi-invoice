@@ -43,7 +43,7 @@ const DefaultInput = React.forwardRef<TextInput, DefaultInputProps>(
 
     // Input container classes
     const inputContainerClasses = cn(
-      "flex-row items-center border rounded-xs px-xs py-2xs",
+      "flex-row items-center border rounded-xs px-xs h-14",
       {
         // Focus state
         "border-success-500": isFocused && !error && !disabled,
@@ -66,14 +66,8 @@ const DefaultInput = React.forwardRef<TextInput, DefaultInputProps>(
       inputClassName
     );
 
-    // Label classes
-    const labelClasses = cn("text-sm font-medium", {
-      "text-neutral-700": !error,
-      "text-error-500": error,
-    });
-
     // Error text classes
-    const errorTextClasses = "text-xs text-error-500 mt-2xs";
+    const errorTextClasses = "text-label-xs text-error-500 mt-3xs";
 
     return (
       <View className={containerClasses}>

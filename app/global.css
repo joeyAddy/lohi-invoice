@@ -1,3 +1,119 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Set DM Sans as default font, Playfair Display for headers only */
+@layer base {
+  /* Universal default - DM Sans for all text */
+  * {
+    font-family: "DMSans-Regular";
+  }
+
+  .font-sans {
+    font-family: "DMSans-Regular";
+  }
+
+  .font-serif {
+    font-family: "DMSans-Regular";
+  }
+
+  /* Heading classes - Playfair Display Bold */
+  .text-h-1 {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-h-2 {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-h-3 {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-h-4 {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-h-5 {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-h-6 {
+    font-family: "PlayfairDisplay-Regular";
+  }
+
+  /* Body text classes - DM Sans */
+  .text-b-1 {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-b-2 {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-b-3 {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-b-4 {
+    font-family: "DMSans-Regular";
+  }
+
+  /* Label classes - DM Sans */
+  .text-label-xxs {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-label-xs {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-label-s {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-label-m {
+    font-family: "DMSans-Regular";
+  }
+
+  .text-label-l {
+    font-family: "DMSans-Medium";
+  }
+
+  /* Component heading classes - Playfair Display Bold */
+  .text-heading-m {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .text-heading-l {
+    font-family: "PlayfairDisplay-Bold";
+  }
+}
+
+/* Essential font utilities only */
+@layer utilities {
+  /* DM Sans variants */
+  .font-normal {
+    font-family: "DMSans-Regular";
+    font-weight: 400;
+  }
+
+  .font-medium {
+    font-family: "DMSans-Medium";
+    font-weight: 500;
+  }
+
+  .font-bold {
+    font-family: "DMSans-Bold";
+    font-weight: 700;
+  }
+
+  /* Playfair Display for headers only */
+  .font-playfair-bold {
+    font-family: "PlayfairDisplay-Bold";
+  }
+
+  .font-playfair-black {
+    font-family: "PlayfairDisplay-Black";
+  }
+}

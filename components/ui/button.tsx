@@ -42,9 +42,9 @@ const Button = React.forwardRef<View, ButtonProps>(
     };
 
     const sizeClasses = {
-      sm: "px-2xs h-12",
-      md: "px-xs h-14",
-      lg: "px-s h-16",
+      sm: "px-2xs h-10",
+      md: "px-xs h-12",
+      lg: "px-s h-14",
     };
 
     const textColorClasses = {
