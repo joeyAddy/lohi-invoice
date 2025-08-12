@@ -1,10 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Country } from "country-state-city";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { cn } from "../../../lib/utils";
 import { CountrySelectionSheet } from "../sheets";
+
+interface CountrySelectionSheetRef {
+  present: () => void;
+  dismiss: () => void;
+  focusSearchInput: () => void;
+}
 
 interface PhoneInputProps {
   value: string;
@@ -35,7 +46,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   defaultCountry = "US",
 }) => {
   // Bottom sheet ref
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const bottomSheetModalRef = useRef<CountrySelectionSheetRef>(null);
 
   // Get all countries with phone codes
   const countries = useMemo(() => {
@@ -78,11 +89,17 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   );
 
   const openCountrySelector = useCallback(() => {
+    Keyboard.dismiss();
     bottomSheetModalRef.current?.present();
   }, []);
 
   const handleCloseSheet = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
+  }, []);
+
+  const handlePhoneInputBlur = useCallback(() => {
+    // Dismiss keyboard when phone input loses focus
+    Keyboard.dismiss();
   }, []);
 
   // Input container classes
@@ -118,6 +135,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
             className="flex-1 py-4 px-3 text-b-1 text-gray-900"
             value={value}
             onChangeText={onChangeText}
+            onBlur={handlePhoneInputBlur}
             placeholder={placeholder}
             placeholderTextColor="#a4a4a4"
             keyboardType="phone-pad"

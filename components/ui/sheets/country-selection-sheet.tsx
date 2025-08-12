@@ -1,6 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { forwardRef, useCallback, useMemo } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -21,8 +27,14 @@ interface CountrySelectionSheetProps {
   onClose: () => void;
 }
 
+interface CountrySelectionSheetRef {
+  present: () => void;
+  dismiss: () => void;
+  focusSearchInput: () => void;
+}
+
 const CountrySelectionSheet = forwardRef<
-  BottomSheetModal,
+  CountrySelectionSheetRef,
   CountrySelectionSheetProps
 >(
   (
@@ -37,8 +49,29 @@ const CountrySelectionSheet = forwardRef<
     },
     ref
   ) => {
+    // Refs
+    const bottomSheetRef = useRef<BottomSheetModal>(null);
+    const searchInputRef = useRef<TextInput>(null);
+
     // Bottom sheet snap points
-    const snapPoints = useMemo(() => ["75%"], []);
+    const snapPoints = useMemo(() => ["60%"], []);
+
+    // Expose methods to parent component
+    useImperativeHandle(
+      ref,
+      () => ({
+        present: () => {
+          bottomSheetRef.current?.present();
+        },
+        dismiss: () => {
+          bottomSheetRef.current?.dismiss();
+        },
+        focusSearchInput: () => {
+          searchInputRef.current?.focus();
+        },
+      }),
+      []
+    );
 
     // Handle sheet changes
     const handleSheetChanges = useCallback(
@@ -83,7 +116,7 @@ const CountrySelectionSheet = forwardRef<
 
     return (
       <BottomSheetModal
-        ref={ref}
+        ref={bottomSheetRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enablePanDownToClose
@@ -105,6 +138,7 @@ const CountrySelectionSheet = forwardRef<
             <View className="flex-row items-center bg-gray-100 rounded-xs px-3 h-14">
               <Ionicons name="search" size={20} color="#a4a4a4" />
               <TextInput
+                ref={searchInputRef}
                 className="flex-1 ml-2 text-b-1"
                 placeholder="Search your country"
                 value={searchQuery}
@@ -131,7 +165,7 @@ const CountrySelectionSheet = forwardRef<
               onPress={onClose}
             >
               <Text className="text-center text-white text-b-1 font-medium">
-                Continue
+                Choose
               </Text>
             </TouchableOpacity>
           </View>
