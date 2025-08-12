@@ -3,14 +3,13 @@ import { Country } from "country-state-city";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   FlatList,
-  Modal,
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { cn } from "../../../lib/utils";
+import { BottomSheet } from "../sheets";
 
 interface PhoneInputProps {
   value: string;
@@ -40,7 +39,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   className,
   defaultCountry = "US",
 }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 
   // Get all countries with phone codes
   const countries = useMemo(() => {
@@ -76,14 +75,14 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     (country: CountryData) => {
       setSelectedCountry(country);
       onChangeCountry?.(country);
-      setIsModalVisible(false);
+      setIsBottomSheetVisible(false);
       setSearchQuery("");
     },
     [onChangeCountry]
   );
 
   const openCountrySelector = useCallback(() => {
-    setIsModalVisible(true);
+    setIsBottomSheetVisible(true);
   }, []);
 
   const renderCountryItem = ({ item }: { item: CountryData }) => (
@@ -149,60 +148,57 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         {error && <Text className="text-xs text-error-500 mt-2">{error}</Text>}
       </View>
 
-      {/* Full Screen Modal for Country Selection */}
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        presentationStyle="pageSheet"
-        onRequestClose={() => setIsModalVisible(false)}
+      {/* Bottom Sheet for Country Selection */}
+      <BottomSheet
+        isVisible={isBottomSheetVisible}
+        onClose={() => setIsBottomSheetVisible(false)}
+        snapPoints={["75%"]}
       >
-        <SafeAreaView className="flex-1 bg-white">
-          {/* Header */}
-          <View className="p-4 border-b border-gray-200">
-            <View className="flex-row items-center justify-between mb-4">
-              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                <Ionicons name="close" size={24} color="#4a4a4a" />
-              </TouchableOpacity>
-              <Text className="text-h-5 font-bold">Choose your country</Text>
-              <View style={{ width: 24 }} />
-            </View>
-
-            {/* Search Input */}
-            <View className="flex-row items-center bg-gray-100 rounded-xs px-3 py-3">
-              <Ionicons name="search" size={20} color="#a4a4a4" />
-              <TextInput
-                className="flex-1 ml-2 text-b-1"
-                placeholder="Search your country"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                placeholderTextColor="#a4a4a4"
-              />
-            </View>
-          </View>
-
-          {/* Countries List */}
-          <FlatList
-            data={filteredCountries}
-            renderItem={renderCountryItem}
-            keyExtractor={(item) => item.isoCode}
-            showsVerticalScrollIndicator={false}
-            className="flex-1"
-            contentContainerStyle={{ paddingBottom: 100 }}
-          />
-
-          {/* Continue Button */}
-          <View className="p-4 border-t border-gray-200 bg-white">
-            <TouchableOpacity
-              className="bg-primary-500 py-4 rounded-xs"
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text className="text-center text-white text-b-1 font-medium">
-                Continue
-              </Text>
+        {/* Header */}
+        <View className="p-4 border-b border-gray-200">
+          <View className="flex-row items-center justify-between mb-4">
+            <TouchableOpacity onPress={() => setIsBottomSheetVisible(false)}>
+              <Ionicons name="close" size={24} color="#4a4a4a" />
             </TouchableOpacity>
+            <Text className="text-h-5 font-bold">Choose your country</Text>
+            <View style={{ width: 24 }} />
           </View>
-        </SafeAreaView>
-      </Modal>
+
+          {/* Search Input */}
+          <View className="flex-row items-center bg-gray-100 rounded-xs px-3 py-3">
+            <Ionicons name="search" size={20} color="#a4a4a4" />
+            <TextInput
+              className="flex-1 ml-2 text-b-1"
+              placeholder="Search your country"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor="#a4a4a4"
+            />
+          </View>
+        </View>
+
+        {/* Countries List */}
+        <FlatList
+          data={filteredCountries}
+          renderItem={renderCountryItem}
+          keyExtractor={(item) => item.isoCode}
+          showsVerticalScrollIndicator={false}
+          className="flex-1"
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+
+        {/* Continue Button */}
+        <View className="p-4 border-t border-gray-200 bg-white">
+          <TouchableOpacity
+            className="bg-primary-500 py-4 rounded-xs"
+            onPress={() => setIsBottomSheetVisible(false)}
+          >
+            <Text className="text-center text-white text-b-1 font-medium">
+              Continue
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
     </>
   );
 };
