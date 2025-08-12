@@ -1,15 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Country } from "country-state-city";
-import React, { useCallback, useMemo, useState } from "react";
-import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { cn } from "../../../lib/utils";
-import { BottomSheet } from "../sheets";
+import { CountrySelectionSheet } from "../sheets";
 
 interface PhoneInputProps {
   value: string;
@@ -39,7 +34,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   className,
   defaultCountry = "US",
 }) => {
-  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  // Bottom sheet ref
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // Get all countries with phone codes
   const countries = useMemo(() => {
@@ -75,33 +71,19 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     (country: CountryData) => {
       setSelectedCountry(country);
       onChangeCountry?.(country);
-      setIsBottomSheetVisible(false);
+      bottomSheetModalRef.current?.dismiss();
       setSearchQuery("");
     },
     [onChangeCountry]
   );
 
   const openCountrySelector = useCallback(() => {
-    setIsBottomSheetVisible(true);
+    bottomSheetModalRef.current?.present();
   }, []);
 
-  const renderCountryItem = ({ item }: { item: CountryData }) => (
-    <TouchableOpacity
-      className="flex-row items-center py-4 px-4 border-b border-gray-100"
-      onPress={() => handleCountrySelect(item)}
-    >
-      <Text className="text-2xl mr-3">{item.flag}</Text>
-      <View className="flex-1">
-        <Text className="text-b-1 text-gray-900">{item.name}</Text>
-      </View>
-      <Text className="text-b-2 text-gray-600">+{item.phonecode}</Text>
-      <View className="w-6 h-6 rounded-full border-2 border-gray-300 ml-3">
-        {selectedCountry.isoCode === item.isoCode && (
-          <View className="w-full h-full rounded-full bg-primary-500 border-2 border-white" />
-        )}
-      </View>
-    </TouchableOpacity>
-  );
+  const handleCloseSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
 
   // Input container classes
   const containerClasses = cn(
@@ -148,57 +130,17 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         {error && <Text className="text-xs text-error-500 mt-2">{error}</Text>}
       </View>
 
-      {/* Bottom Sheet for Country Selection */}
-      <BottomSheet
-        isVisible={isBottomSheetVisible}
-        onClose={() => setIsBottomSheetVisible(false)}
-        snapPoints={["75%"]}
-      >
-        {/* Header */}
-        <View className="p-4 border-b border-gray-200">
-          <View className="flex-row items-center justify-between mb-4">
-            <TouchableOpacity onPress={() => setIsBottomSheetVisible(false)}>
-              <Ionicons name="close" size={24} color="#4a4a4a" />
-            </TouchableOpacity>
-            <Text className="text-h-5 font-bold">Choose your country</Text>
-            <View style={{ width: 24 }} />
-          </View>
-
-          {/* Search Input */}
-          <View className="flex-row items-center bg-gray-100 rounded-xs px-3 py-3">
-            <Ionicons name="search" size={20} color="#a4a4a4" />
-            <TextInput
-              className="flex-1 ml-2 text-b-1"
-              placeholder="Search your country"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              placeholderTextColor="#a4a4a4"
-            />
-          </View>
-        </View>
-
-        {/* Countries List */}
-        <FlatList
-          data={filteredCountries}
-          renderItem={renderCountryItem}
-          keyExtractor={(item) => item.isoCode}
-          showsVerticalScrollIndicator={false}
-          className="flex-1"
-          contentContainerStyle={{ paddingBottom: 100 }}
-        />
-
-        {/* Continue Button */}
-        <View className="p-4 border-t border-gray-200 bg-white">
-          <TouchableOpacity
-            className="bg-primary-500 py-4 rounded-xs"
-            onPress={() => setIsBottomSheetVisible(false)}
-          >
-            <Text className="text-center text-white text-b-1 font-medium">
-              Continue
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
+      {/* Country Selection Bottom Sheet */}
+      <CountrySelectionSheet
+        ref={bottomSheetModalRef}
+        countries={countries}
+        filteredCountries={filteredCountries}
+        selectedCountry={selectedCountry}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onCountrySelect={handleCountrySelect}
+        onClose={handleCloseSheet}
+      />
     </>
   );
 };

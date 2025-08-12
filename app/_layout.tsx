@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   DarkTheme,
   DefaultTheme,
@@ -35,25 +36,27 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ReduxProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack initialRouteName="(authentication)">
-            <Stack.Screen
-              name="(authentication)"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="(onboarding)"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </ReduxProvider>
+      <BottomSheetModalProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack initialRouteName="(authentication)">
+              <Stack.Screen
+                name="(authentication)"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(onboarding)"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </ReduxProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
