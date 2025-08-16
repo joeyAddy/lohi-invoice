@@ -42,6 +42,57 @@ export const validatePassword = (password: string): ValidationResult => {
   return { isValid: true };
 };
 
+// Validate password reset form
+export const validatePasswordReset = (
+  newPassword: string,
+  confirmPassword: string
+) => {
+  // Validate new password meets requirements
+  const passwordValidation = validatePassword(newPassword);
+
+  // Additional password strength checks (optional)
+  let strengthError = "";
+  if (passwordValidation.isValid) {
+    const hasNumber = /\d/.test(newPassword);
+    const hasUpper = /[A-Z]/.test(newPassword);
+    const hasLower = /[a-z]/.test(newPassword);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasNumber || !hasUpper || !hasLower || !hasSpecial) {
+      strengthError =
+        "Password should include uppercase, lowercase, number, and special character";
+    }
+  }
+
+  // Check if passwords match
+  let confirmPasswordValidation: ValidationResult;
+  if (!confirmPassword) {
+    confirmPasswordValidation = {
+      isValid: false,
+      error: "Please confirm your password",
+    };
+  } else if (newPassword !== confirmPassword) {
+    confirmPasswordValidation = {
+      isValid: false,
+      error: "Passwords do not match",
+    };
+  } else {
+    confirmPasswordValidation = { isValid: true };
+  }
+
+  // Combine password validation with strength check
+  const combinedPasswordValidation = strengthError
+    ? { isValid: false, error: strengthError }
+    : passwordValidation;
+
+  return {
+    password: combinedPasswordValidation,
+    confirmPassword: confirmPasswordValidation,
+    isFormValid:
+      combinedPasswordValidation.isValid && confirmPasswordValidation.isValid,
+  };
+};
+
 // Generic required field validation
 export const validateRequired = (
   value: string,
@@ -106,22 +157,20 @@ export const validateRegisterForm = (
 export const validatePersonalInfoForm = (
   firstName: string,
   lastName: string,
-  phoneNumber?: string
+  phoneNumber: string
 ) => {
   const firstNameValidation = validateRequired(firstName, "First name");
   const lastNameValidation = validateRequired(lastName, "Last name");
 
   // Phone number is optional, so only validate format if provided
   let phoneValidation: ValidationResult = { isValid: true };
-  if (phoneNumber && phoneNumber.trim()) {
-    // Basic phone validation - you can make this more strict
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    if (!phoneRegex.test(phoneNumber.replace(/[\s\-\(\)]/g, ""))) {
-      phoneValidation = {
-        isValid: false,
-        error: "Please enter a valid phone number",
-      };
-    }
+  // Basic phone validation - you can make this more strict
+  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+  if (!phoneRegex.test(phoneNumber.replace(/[\s\-\(\)]/g, ""))) {
+    phoneValidation = {
+      isValid: false,
+      error: "Please enter a valid phone number",
+    };
   }
 
   return {

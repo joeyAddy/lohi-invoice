@@ -76,9 +76,23 @@ const OtpVerification = () => {
 
   // Handle OTP verification
   const handleVerifyOtp = useCallback(async () => {
-    // For testing UI routing - navigate to personal info page
+    // For testing UI routing - navigate to appropriate page based on purpose
     setTimeout(() => {
-      router.replace("/(onboarding)/personal-info" as Href);
+      let route: Href = "/(onboarding)/personal-info";
+
+      if (purpose === "password_reset") {
+        // Navigate to reset-password page with necessary params
+        route = {
+          pathname: "/(authentication)/reset-password",
+          params: {
+            token: params.token,
+          },
+        };
+      } else if (purpose === "login_verification") {
+        route = "/(authentication)/login";
+      }
+
+      router.replace(route);
     }, 1000);
 
     const validation = validateOtp(otp);

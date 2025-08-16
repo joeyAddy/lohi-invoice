@@ -17,6 +17,7 @@ export interface PasswordInputProps
   inputClassName?: string;
   disabled?: boolean;
   showPasswordToggle?: boolean;
+  isTheUserSettingANewPassword?: boolean;
 }
 
 const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
@@ -28,14 +29,17 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
       inputClassName,
       disabled = false,
       showPasswordToggle = true,
+      isTheUserSettingANewPassword = false,
       onFocus,
       onBlur,
+      onChangeText,
       ...props
     },
     ref
   ) => {
     const [isFocused, setIsFocused] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [password, setPassword] = useState("");
 
     const handleFocus = (e: any) => {
       setIsFocused(true);
@@ -53,6 +57,28 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
       }
     };
 
+    const handleChangeText = (text: string) => {
+      setPassword(text);
+      onChangeText?.(text);
+    };
+
+    // Password strength calculation
+    const getPasswordStrength = () => {
+      if (!password) return 0;
+
+      let strength = 0;
+      // At least 6 characters
+      if (password.length >= 6) strength++;
+      // Contains both letters and numbers
+      if (/[a-zA-Z]/.test(password) && /[0-9]/.test(password)) strength++;
+      // Contains special characters
+      if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+      return strength;
+    };
+
+    const passwordStrength = getPasswordStrength();
+
     // Container classes
     const containerClasses = cn("flex-col gap-2xs", className);
 
@@ -61,7 +87,7 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
       "flex-row items-center border rounded-xs px-xs h-14",
       {
         // Focus state
-        "border-success-500": isFocused && !error && !disabled,
+        "border-success-500 border-[1.5px]": isFocused && !error && !disabled,
         // Error state
         "border-error-500": error && !disabled,
         // Default state
@@ -88,6 +114,31 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
     const toggleButtonClasses = cn("p-2xs rounded-2xs", {
       "opacity-50": disabled,
     });
+
+    // Strength bar classes
+    const strengthBarClasses = (index: number) => {
+      if (passwordStrength === 0) return "bg-neutral-300";
+      if (index === 0) {
+        return passwordStrength >= 1
+          ? passwordStrength === 1
+            ? "bg-error-500"
+            : passwordStrength >= 3
+              ? "bg-success-500"
+              : "bg-warning-500"
+          : "bg-neutral-300";
+      }
+      if (index === 1) {
+        return passwordStrength >= 2
+          ? passwordStrength === 2
+            ? "bg-warning-500"
+            : "bg-success-500"
+          : "bg-neutral-300";
+      }
+      if (index === 2) {
+        return passwordStrength >= 3 ? "bg-success-500" : "bg-neutral-300";
+      }
+      return "bg-neutral-300";
+    };
 
     return (
       <View className={containerClasses}>
@@ -117,6 +168,8 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             editable={!disabled}
+            onChangeText={handleChangeText}
+            value={password}
             {...props}
           />
 
@@ -136,6 +189,18 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
             </TouchableOpacity>
           )}
         </View>
+
+        {/* Password Strength Indicator */}
+        {isTheUserSettingANewPassword && (
+          <View className="flex-row gap-2xs h-1 mt-3xs self-center w-[95%]">
+            {[0, 1, 2].map((index) => (
+              <View
+                key={index}
+                className={cn("flex-1 rounded-xs", strengthBarClasses(index))}
+              />
+            ))}
+          </View>
+        )}
 
         {error && <Text className={errorTextClasses}>{error}</Text>}
       </View>

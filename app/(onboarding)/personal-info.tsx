@@ -6,8 +6,7 @@ import {
   PhoneInput,
   type CountryData,
 } from "@/components/ui/inputs";
-import TermsAgreement from "@/components/ui/terms-agreement";
-import { useOnboarding } from "@/lib";
+import { useAuth, useOnboarding } from "@/lib";
 import { validatePersonalInfoForm } from "@/lib/utils/validation";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -22,16 +21,15 @@ const PersonalInfo = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(
     null
   );
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   // Validation states
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [termsError, setTermsError] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const { updatePersonalInfo, isUpdatingPersonalInfo } = useOnboarding();
+  const { logout } = useAuth();
 
   const validateInputs = () => {
     const validation = validatePersonalInfoForm(
@@ -44,17 +42,14 @@ const PersonalInfo = () => {
     setLastNameError(validation.lastName.error || "");
     setPhoneNumberError(validation.phoneNumber.error || "");
 
-    // Validate terms agreement
-    if (!agreeToTerms) {
-      setTermsError("You must agree to the terms and conditions");
-    } else {
-      setTermsError("");
-    }
-
-    return validation.isFormValid && agreeToTerms;
+    return validation.isFormValid;
   };
 
   const handleContinue = async () => {
+    setTimeout(() => {
+      router.push("/(onboarding)/profile-type");
+    }, 2000); // Wait 2 seconds before navigating
+
     setHasSubmitted(true);
 
     const isValid = validateInputs();
@@ -83,8 +78,9 @@ const PersonalInfo = () => {
     }
   };
 
-  const handleBack = () => {
-    router.back();
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/(authentication)/login");
   };
 
   return (
@@ -93,8 +89,8 @@ const PersonalInfo = () => {
         {/* Header */}
         <Header
           title="Personal Info"
-          leftIcon="arrow-back"
-          onPressLeftIcon={handleBack}
+          leftIcon="log-out-outline"
+          onPressLeftIcon={handleLogout}
           className="mb-8"
         />
 
@@ -104,10 +100,10 @@ const PersonalInfo = () => {
         </View>
 
         {/* Title */}
-        <Text className="text-h-3 mb-2 text-gray-900">
+        <Text className="text-h-5 mb-2 text-gray-900">
           Tell us about yourself
         </Text>
-        <Text className="text-b-1 font-dm-sans-bold mb-8 text-gray-600">
+        <Text className="text-b-1 mb-8 text-gray-600">
           Help us personalize your invoicing experience
         </Text>
 
@@ -158,7 +154,7 @@ const PersonalInfo = () => {
           />
 
           <PhoneInput
-            placeholder="Phone number (optional)"
+            placeholder="Phone number"
             value={phoneNumber}
             onChangeText={(value) => {
               setPhoneNumber(value);
@@ -187,22 +183,6 @@ const PersonalInfo = () => {
             Continue
           </Button>
         </View>
-
-        {/* Terms and Conditions */}
-        <TermsAgreement
-          checked={agreeToTerms}
-          onCheckedChange={(checked) => {
-            setAgreeToTerms(checked);
-            if (hasSubmitted) {
-              setTermsError(
-                checked ? "" : "You must agree to the terms and conditions"
-              );
-            }
-          }}
-          error={termsError}
-          hasSubmitted={hasSubmitted}
-          className="mt-8"
-        />
       </View>
     </SafeAreaView>
   );

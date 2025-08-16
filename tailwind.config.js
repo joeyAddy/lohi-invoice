@@ -138,7 +138,6 @@ module.exports = {
           "48px",
           {
             lineHeight: "1.2",
-            fontWeight: "700",
           },
         ],
         "h-2": [
@@ -152,28 +151,24 @@ module.exports = {
           "34px",
           {
             lineHeight: "1.2",
-            fontWeight: "700",
           },
         ],
         "h-4": [
           "28px",
           {
             lineHeight: "1.2",
-            fontWeight: "700",
           },
         ],
         "h-5": [
           "24px",
           {
             lineHeight: "1.2",
-            fontWeight: "700",
           },
         ],
         "h-6": [
           "20px",
           {
             lineHeight: "1.3",
-            fontWeight: "500",
           },
         ],
         // Body text - DM Sans
@@ -181,28 +176,24 @@ module.exports = {
           "16px",
           {
             lineHeight: "1.5",
-            fontWeight: "400",
           },
         ],
         "b-2": [
           "14px",
           {
             lineHeight: "1.5",
-            fontWeight: "400",
           },
         ],
         "b-3": [
           "12px",
           {
             lineHeight: "1.5",
-            fontWeight: "400",
           },
         ],
         "b-4": [
           "10px",
           {
             lineHeight: "1.5",
-            fontWeight: "400",
           },
         ],
         // Component labels - DM Sans

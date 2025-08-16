@@ -5,6 +5,7 @@ import type {
   InvoiceTemplateRequest,
   OnboardingStepResponse,
   PersonalInfoRequest,
+  ProfileTypeRequest,
 } from "../../../interfaces";
 import { ENDPOINTS } from "../constants/endpoints";
 
@@ -22,7 +23,17 @@ export const onboardingEndpoints = (
     }),
     invalidatesTags: ["User"],
   }),
-
+  updateProfileType: builder.mutation<
+    OnboardingStepResponse,
+    ProfileTypeRequest
+  >({
+    query: (data) => ({
+      url: ENDPOINTS.PROFILE_TYPE, // Make sure to add this to your ENDPOINTS constants
+      method: "POST",
+      body: data,
+    }),
+    invalidatesTags: ["User"],
+  }),
   updateCompanyInfo: builder.mutation<
     OnboardingStepResponse,
     CompanyInfoRequest

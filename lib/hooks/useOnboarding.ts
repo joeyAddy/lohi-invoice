@@ -4,12 +4,14 @@ import type {
   CompanyLogoRequest,
   InvoiceTemplateRequest,
   PersonalInfoRequest,
+  ProfileTypeRequest, // Add this import
 } from "../../interfaces";
 import {
   useCompleteOnboardingMutation,
   useSelectInvoiceTemplateMutation,
   useUpdateCompanyInfoMutation,
   useUpdatePersonalInfoMutation,
+  useUpdateProfileTypeMutation,
   useUploadCompanyLogoMutation,
 } from "../api/rtkApi";
 import { selectUser } from "../store/slices/authSlice";
@@ -21,6 +23,8 @@ export const useOnboarding = () => {
   // RTK Query mutations
   const [updatePersonalInfoMutation, { isLoading: isUpdatingPersonalInfo }] =
     useUpdatePersonalInfoMutation();
+  const [updateProfileTypeMutation, { isLoading: isUpdatingProfileType }] =
+    useUpdateProfileTypeMutation();
   const [updateCompanyInfoMutation, { isLoading: isUpdatingCompanyInfo }] =
     useUpdateCompanyInfoMutation();
   const [uploadCompanyLogoMutation, { isLoading: isUploadingLogo }] =
@@ -29,6 +33,21 @@ export const useOnboarding = () => {
     useSelectInvoiceTemplateMutation();
   const [completeOnboardingMutation, { isLoading: isCompletingOnboarding }] =
     useCompleteOnboardingMutation();
+
+  // Update profile type
+  const updateProfileType = useCallback(
+    async (data: ProfileTypeRequest) => {
+      try {
+        const result = await updateProfileTypeMutation(data).unwrap();
+        return { success: true, data: result };
+      } catch (error: any) {
+        const errorMessage =
+          error?.data?.message || "Failed to update profile type";
+        return { success: false, error: errorMessage };
+      }
+    },
+    [updateProfileTypeMutation]
+  );
 
   // Update personal info
   const updatePersonalInfo = useCallback(
@@ -113,6 +132,7 @@ export const useOnboarding = () => {
     needsOnboarding,
 
     // Functions
+    updateProfileType, // Add this to returned functions
     updatePersonalInfo,
     updateCompanyInfo,
     uploadCompanyLogo,
@@ -120,6 +140,7 @@ export const useOnboarding = () => {
     completeOnboarding,
 
     // Loading states
+    isUpdatingProfileType, // Add this loading state
     isUpdatingPersonalInfo,
     isUpdatingCompanyInfo,
     isUploadingLogo,
@@ -128,6 +149,7 @@ export const useOnboarding = () => {
 
     // Combined loading state
     isLoading:
+      isUpdatingProfileType || // Include in combined loading
       isUpdatingPersonalInfo ||
       isUpdatingCompanyInfo ||
       isUploadingLogo ||

@@ -8,6 +8,11 @@ export interface PersonalInfoRequest {
   phoneNumber?: string;
 }
 
+// Profile Type Step
+export interface ProfileTypeRequest {
+  profileType: "freelancer" | "agency";
+}
+
 // Company Info Step - Use the comprehensive company interface
 export { CreateCompanyRequest as CompanyInfoRequest } from "../company";
 

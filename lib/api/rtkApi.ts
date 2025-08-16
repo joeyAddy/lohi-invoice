@@ -63,6 +63,7 @@ export const {
 
   // Onboarding hooks
   useUpdatePersonalInfoMutation,
+  useUpdateProfileTypeMutation,
   useUpdateCompanyInfoMutation,
   useUploadCompanyLogoMutation,
   useSelectInvoiceTemplateMutation,

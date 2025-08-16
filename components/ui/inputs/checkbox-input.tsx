@@ -83,7 +83,7 @@ const CheckboxInput = React.forwardRef<View, CheckboxInputProps>(
     );
 
     // Label classes
-    const labelClasses = cn("font-semibold", sizeConfig[size].text, {
+    const labelClasses = cn("font-dm-sans-bold", sizeConfig[size].text, {
       "text-primary": !disabled && !error,
       "text-error-500": !disabled && error,
       "text-neutral-500": disabled,

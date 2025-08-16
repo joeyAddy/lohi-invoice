@@ -2,91 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Set DM Sans as default font, Playfair Display for headers only */
 @layer base {
   /* Universal default - DM Sans for all text */
   * {
-    font-family: "DMSans-Regular";
+    @apply font-sans;
   }
 
   .font-sans {
-    font-family: "DMSans-Regular";
+    @apply font-normal;
   }
 
   .font-serif {
-    font-family: "DMSans-Regular";
+    @apply font-normal;
   }
 
   /* Heading classes - Playfair Display Bold */
-  .text-h-1 {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
-  .text-h-2 {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
-  .text-h-3 {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
-  .text-h-4 {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
-  .text-h-5 {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
+  .text-h-1,
+  .text-h-2,
+  .text-h-3,
+  .text-h-4,
+  .text-h-5,
   .text-h-6 {
-    font-family: "PlayfairDisplay-Regular";
+    @apply font-playfair-bold;
   }
 
   /* Body text classes - DM Sans */
-  .text-b-1 {
-    font-family: "DMSans-Regular";
-  }
-
-  .text-b-2 {
-    font-family: "DMSans-Regular";
-  }
-
-  .text-b-3 {
-    font-family: "DMSans-Regular";
-  }
-
+  .text-b-1,
+  .text-b-2,
+  .text-b-3,
   .text-b-4 {
-    font-family: "DMSans-Regular";
+    @apply font-normal;
   }
 
   /* Label classes - DM Sans */
-  .text-label-xxs {
-    font-family: "DMSans-Regular";
-  }
-
-  .text-label-xs {
-    font-family: "DMSans-Regular";
-  }
-
-  .text-label-s {
-    font-family: "DMSans-Regular";
-  }
-
+  .text-label-xxs,
+  .text-label-xs,
+  .text-label-s,
   .text-label-m {
-    font-family: "DMSans-Regular";
+    @apply font-normal;
   }
 
   .text-label-l {
-    font-family: "DMSans-Medium";
+    @apply font-medium;
   }
 
   /* Component heading classes - Playfair Display Bold */
-  .text-heading-m {
-    font-family: "PlayfairDisplay-Bold";
-  }
-
+  .text-heading-m,
   .text-heading-l {
-    font-family: "PlayfairDisplay-Bold";
+    @apply font-playfair-bold;
   }
 }
 
@@ -111,6 +74,10 @@
   /* Playfair Display for headers only */
   .font-playfair-bold {
     font-family: "PlayfairDisplay-Bold";
+  }
+
+  .font-playfair-regular {
+    font-family: "PlayfairDisplay-Regular";
   }
 
   .font-playfair-black {

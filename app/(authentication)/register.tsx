@@ -182,6 +182,7 @@ const Register = () => {
             value={password}
             onChangeText={handlePasswordChange}
             error={passwordError}
+            isTheUserSettingANewPassword={true}
             className="mb-6"
           />
 
@@ -239,7 +240,7 @@ const Register = () => {
       <View className="mt-4 flex-row justify-center items-center">
         <Text className="text-b-1 text-primary">Already have an account? </Text>
         <Pressable onPress={handleNavigateToLogin}>
-          <Text className="text-b-1 font-semibold text-primary">Login</Text>
+          <Text className="text-b-1 font-dm-sans-bold text-primary">Login</Text>
         </Pressable>
       </View>
     </SafeAreaView>

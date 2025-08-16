@@ -77,6 +77,10 @@ const Login = () => {
     router.push("/(authentication)/register");
   };
 
+  const handleGoToForgotPassword = () => {
+    router.push("/(authentication)/forgot-password");
+  };
+
   return (
     <SafeAreaView className="flex-1 justify-center items-center bg-white">
       <View className="w-full p-4">
@@ -107,8 +111,8 @@ const Login = () => {
             checked={rememberMe}
             onCheckedChange={setRememberMe}
           />
-          <Pressable>
-            <Text className="text-b-1 font-semibold text-primary">
+          <Pressable onPress={handleGoToForgotPassword}>
+            <Text className="text-b-1 font-dm-sans-bold text-primary">
               Forgot your password?
             </Text>
           </Pressable>
@@ -141,7 +145,7 @@ const Login = () => {
             Don&apos;t have an account?{" "}
           </Text>
           <Pressable onPress={handleNavigateToRegister}>
-            <Text className="text-b-1 font-semibold text-primary">
+            <Text className="text-b-1 font-dm-sans-bold text-primary">
               Create an account
             </Text>
           </Pressable>

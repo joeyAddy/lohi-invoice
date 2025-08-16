@@ -3,9 +3,11 @@ import { router } from "expo-router";
 import { useCallback, useEffect } from "react";
 import type { LoginRequest, RegisterRequest } from "../../interfaces";
 import {
+  useForgotPasswordMutation,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useResetPasswordMutation,
 } from "../api/rtkApi";
 import {
   clearError,
@@ -27,6 +29,8 @@ export const useAuth = () => {
   const [loginMutation] = useLoginMutation();
   const [registerMutation] = useRegisterMutation();
   const [logoutMutation] = useLogoutMutation();
+  const [forgotPasswordMutation] = useForgotPasswordMutation();
+  const [resetPasswordMutation] = useResetPasswordMutation();
 
   // Login function
   const login = useCallback(
@@ -104,6 +108,58 @@ export const useAuth = () => {
     }
   }, [dispatch, logoutMutation]);
 
+  // New function to handle sending password reset email
+  const sendPasswordResetEmail = useCallback(
+    async (email: string) => {
+      try {
+        dispatch(setLoading(true));
+        dispatch(clearError());
+
+        // Call the password reset mutation with the user's email
+        await forgotPasswordMutation({ email }).unwrap();
+
+        // On success, return a success object
+        return { success: true };
+      } catch (error: any) {
+        const errorMessage =
+          error?.data?.message || "Failed to send reset email";
+        console.log("Password reset error:", error);
+        dispatch(setError(errorMessage));
+        // On error, return an error object
+        return { success: false, error: errorMessage };
+      } finally {
+        dispatch(setLoading(false));
+      }
+    },
+    [dispatch, forgotPasswordMutation]
+  );
+
+  // Function to handle password reset
+  const resetPassword = useCallback(
+    async (newPassword: string, token: string) => {
+      try {
+        dispatch(setLoading(true));
+        dispatch(clearError());
+
+        // Call the reset password mutation
+        const result = await resetPasswordMutation({
+          token,
+          password: newPassword,
+        }).unwrap();
+
+        return { success: true, data: result };
+      } catch (error: any) {
+        const errorMessage = error?.data?.message || "Password reset failed";
+        console.log("Reset password error:", error);
+        dispatch(setError(errorMessage));
+        return { success: false, error: errorMessage };
+      } finally {
+        dispatch(setLoading(false));
+      }
+    },
+    [dispatch, resetPasswordMutation]
+  );
+
   return {
     // Auth state
     ...authState,
@@ -112,6 +168,8 @@ export const useAuth = () => {
     login,
     register,
     logout,
+    sendPasswordResetEmail,
+    resetPassword,
     clearError: () => dispatch(clearError()),
   };
 };

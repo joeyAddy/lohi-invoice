@@ -42,6 +42,7 @@ export type {
   InvoiceTemplateRequest,
   OnboardingStepResponse,
   PersonalInfoRequest,
+  ProfileTypeRequest,
 } from "./onboarding";
 
 // API types

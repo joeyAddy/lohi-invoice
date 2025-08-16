@@ -46,7 +46,7 @@ const DefaultInput = React.forwardRef<TextInput, DefaultInputProps>(
       "flex-row items-center border rounded-xs px-xs h-14",
       {
         // Focus state
-        "border-success-500": isFocused && !error && !disabled,
+        "border-success-500 border-[1.5px]": isFocused && !error && !disabled,
         // Error state
         "border-error-500": error && !disabled,
         // Default state

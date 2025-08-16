@@ -27,6 +27,7 @@ export const ENDPOINTS = {
   COMPANY_LOGO: "/onboarding/company-logo",
   INVOICE_TEMPLATE: "/onboarding/invoice-template",
   COMPLETE_ONBOARDING: "/onboarding/complete",
+  PROFILE_TYPE: "/onboarding/profile-type",
 
   // Company endpoints
   COMPANIES: "/companies",
