@@ -1,5 +1,5 @@
 // Onboarding step interfaces
-import { CreateCompanyRequest } from "../company";
+import { CreateAgencyRequest } from "../agency";
 
 // Personal Info Step
 export interface PersonalInfoRequest {
@@ -13,11 +13,11 @@ export interface ProfileTypeRequest {
   profileType: "freelancer" | "agency";
 }
 
-// Company Info Step - Use the comprehensive company interface
-export { CreateCompanyRequest as CompanyInfoRequest } from "../company";
+// Agency Info Step - Use the comprehensive agency interface
+export { CreateAgencyRequest as AgencyInfoRequest } from "../agency";
 
-// Company Logo Upload Step
-export interface CompanyLogoRequest {
+// Agency Logo Upload Step
+export interface AgencyLogoRequest {
   logo: string; // Base64 encoded image or file path
 }
 
@@ -37,7 +37,7 @@ export interface OnboardingStepResponse {
 // Combined onboarding completion
 export interface CompleteOnboardingRequest {
   personalInfo: PersonalInfoRequest;
-  companyInfo: CreateCompanyRequest;
-  companyLogo?: CompanyLogoRequest;
+  agencyInfo: CreateAgencyRequest;
+  agencyLogo?: AgencyLogoRequest;
   invoiceTemplate: InvoiceTemplateRequest;
 }

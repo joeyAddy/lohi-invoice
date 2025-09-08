@@ -153,7 +153,7 @@ const PasswordInput = React.forwardRef<TextInput, PasswordInputProps>(
                   ? "#bbbbbb" // neutral-400
                   : error && !disabled
                     ? "#d10000" // error-500
-                    : "#8e8e8e" // neutral-600
+                    : "#102138" // neutral-600
               }
             />
           </View>

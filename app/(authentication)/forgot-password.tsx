@@ -101,7 +101,7 @@ const ForgotPassword = () => {
             onChangeText={handleEmailChange}
             error={emailError}
             leftIcon={
-              <Ionicons name="mail-outline" size={20} color="#a4a4a4" />
+              <Ionicons name="mail-outline" size={20} color="#102138" />
             }
             className="mb-6"
             keyboardType="email-address"

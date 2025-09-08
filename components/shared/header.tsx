@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   className = "",
 }) => {
   return (
-    <View className={`flex-row items-center justify-between ${className}`}>
+    <View className={`flex-row items-center justify-between pb-4 ${className}`}>
       {/* Left side */}
       <View className="w-12 h-12">
         {leftIcon && (

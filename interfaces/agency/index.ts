@@ -1,5 +1,5 @@
-// Base company interface for invoice app
-export interface CompanyDetails {
+// Base agency interface for invoice app
+export interface AgencyDetails {
   id: string;
   legalName: string;
   displayName?: string; // What clients see on invoices
@@ -12,7 +12,7 @@ export interface CompanyDetails {
     country: string;
   };
   phone?: string;
-  email?: string; // Company contact email (can be different from user email)
+  email?: string; // Agency contact email (can be different from user email)
   website?: string;
   logoUrl?: string;
   currency: "USD" | "EUR" | "GBP" | "CAD" | "AUD" | "JPY"; // Default currency for invoices
@@ -21,8 +21,8 @@ export interface CompanyDetails {
   updatedAt: string;
 }
 
-// Request type for company creation/updates
-export interface CreateCompanyRequest {
+// Request type for agency creation/updates
+export interface CreateAgencyRequest {
   legalName: string;
   displayName?: string;
   taxId?: string;
@@ -41,6 +41,6 @@ export interface CreateCompanyRequest {
   timezone: string;
 }
 
-export interface UpdateCompanyRequest extends Partial<CreateCompanyRequest> {
+export interface UpdateAgencyRequest extends Partial<CreateAgencyRequest> {
   id: string;
 }

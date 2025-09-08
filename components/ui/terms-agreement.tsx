@@ -42,7 +42,7 @@ const TermsAgreement: React.FC<TermsAgreementProps> = ({
     "border rounded-2xs flex items-center justify-center w-5 h-5",
     {
       // Checked states
-      "bg-primary-500 border-primary-500": checked,
+      "bg-primary-500 border-primary-500/50": checked,
       // Unchecked states
       "bg-transparent border-neutral-300": !checked && !error,
       "bg-transparent border-error-500": !checked && error,

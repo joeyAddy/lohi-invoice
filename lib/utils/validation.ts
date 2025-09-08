@@ -184,8 +184,8 @@ export const validatePersonalInfoForm = (
   };
 };
 
-// Validate company info form
-export const validateCompanyInfoForm = (data: {
+// Validate agency info form
+export const validateAgencyInfoForm = (data: {
   legalName: string;
   displayName?: string;
   taxId?: string;
@@ -196,15 +196,13 @@ export const validateCompanyInfoForm = (data: {
     postalCode: string;
     country: string;
   };
-  phone?: string;
-  email?: string;
   website?: string;
   currency: string;
   timezone: string;
 }) => {
   const legalNameValidation = validateRequired(
     data.legalName,
-    "Company legal name"
+    "Agency legal name"
   );
 
   // Address validations
@@ -225,18 +223,6 @@ export const validateCompanyInfoForm = (data: {
   const currencyValidation = validateRequired(data.currency, "Currency");
   const timezoneValidation = validateRequired(data.timezone, "Timezone");
 
-  // Email validation (optional, but validate format if provided)
-  let emailValidation: ValidationResult = { isValid: true };
-  if (data.email && data.email.trim()) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email.trim())) {
-      emailValidation = {
-        isValid: false,
-        error: "Please enter a valid email address",
-      };
-    }
-  }
-
   // Website validation (optional, but validate format if provided)
   let websiteValidation: ValidationResult = { isValid: true };
   if (data.website && data.website.trim()) {
@@ -246,18 +232,6 @@ export const validateCompanyInfoForm = (data: {
       websiteValidation = {
         isValid: false,
         error: "Please enter a valid website URL",
-      };
-    }
-  }
-
-  // Phone validation (optional, but validate format if provided)
-  let phoneValidation: ValidationResult = { isValid: true };
-  if (data.phone && data.phone.trim()) {
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    if (!phoneRegex.test(data.phone.replace(/[\s\-\(\)]/g, ""))) {
-      phoneValidation = {
-        isValid: false,
-        error: "Please enter a valid phone number",
       };
     }
   }
@@ -273,8 +247,6 @@ export const validateCompanyInfoForm = (data: {
       postalCode: postalCodeValidation,
       country: countryValidation,
     },
-    phone: phoneValidation,
-    email: emailValidation,
     website: websiteValidation,
     currency: currencyValidation,
     timezone: timezoneValidation,
@@ -287,8 +259,6 @@ export const validateCompanyInfoForm = (data: {
       countryValidation.isValid &&
       currencyValidation.isValid &&
       timezoneValidation.isValid &&
-      emailValidation.isValid &&
-      websiteValidation.isValid &&
-      phoneValidation.isValid,
+      websiteValidation.isValid,
   };
 };

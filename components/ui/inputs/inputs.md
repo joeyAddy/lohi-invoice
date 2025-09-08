@@ -103,7 +103,7 @@ import { PasswordInput } from "@/components/ui/inputs";
 
 ### Focus State
 
-- Border: `border-primary-500` (#1b365d)
+- Border: `border-primary-500/50` (#1b365d)
 - Background: `bg-neutral-100` (#ffffff)
 
 ### Error State

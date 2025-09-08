@@ -7,34 +7,34 @@ import {
   validateRequired,
 } from "./validation";
 
-// Company validation
+// Agency validation
 export const COMPANY_NAME_REGEX = /^[a-zA-Z0-9\s&.-]{2,100}$/;
 export const TAX_ID_REGEX = /^[a-zA-Z0-9-]{3,20}$/;
 export const PHONE_REGEX = /^[\+]?[1-9][\d]{0,15}$/;
 
-export const validateCompanyName = (name: string): ValidationResult => {
+export const validateAgencyName = (name: string): ValidationResult => {
   if (!name.trim()) {
-    return { isValid: false, error: "Company name is required" };
+    return { isValid: false, error: "Agency name is required" };
   }
 
   if (name.trim().length < 2) {
     return {
       isValid: false,
-      error: "Company name must be at least 2 characters",
+      error: "Agency name must be at least 2 characters",
     };
   }
 
   if (name.trim().length > 100) {
     return {
       isValid: false,
-      error: "Company name must be less than 100 characters",
+      error: "Agency name must be less than 100 characters",
     };
   }
 
   if (!COMPANY_NAME_REGEX.test(name.trim())) {
     return {
       isValid: false,
-      error: "Company name contains invalid characters",
+      error: "Agency name contains invalid characters",
     };
   }
 
@@ -106,8 +106,8 @@ export const validateRegistrationForm = (
   };
 };
 
-// Company setup form validation
-export const validateCompanyForm = (
+// Agency setup form validation
+export const validateAgencyForm = (
   legalName: string,
   taxId: string,
   phone: string,
@@ -119,7 +119,7 @@ export const validateCompanyForm = (
     country: string;
   }
 ) => {
-  const legalNameValidation = validateCompanyName(legalName);
+  const legalNameValidation = validateAgencyName(legalName);
   const taxIdValidation = validateTaxId(taxId);
   const phoneValidation = validatePhone(phone);
   const emailValidation = email ? validateEmail(email) : { isValid: true };

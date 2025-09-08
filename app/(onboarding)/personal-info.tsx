@@ -1,5 +1,5 @@
 import { Header } from "@/components/shared";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui";
 import Button from "@/components/ui/button";
 import {
   DefaultInput,
@@ -72,7 +72,7 @@ const PersonalInfo = () => {
 
     if (result.success) {
       // Navigate to next step
-      router.push("/(onboarding)/company-info");
+      router.push("/(onboarding)/agency-info");
     } else {
       Alert.alert("Error", result.error || "Failed to update personal info");
     }
@@ -88,17 +88,15 @@ const PersonalInfo = () => {
       <View className="w-full p-4">
         {/* Header */}
         <Header
-          title="Personal Info"
+          title="Profile Setup"
           leftIcon="log-out-outline"
           onPressLeftIcon={handleLogout}
-          className="mb-8"
+          className="mb-6"
         />
-
         {/* Step indicator */}
         <View className="mb-8">
-          <Badge text="step 1 of 4" leftIcon="person-outline" />
+          <Badge text="step 1 of 3" leftIcon="person-outline" />
         </View>
-
         {/* Title */}
         <Text className="text-h-5 mb-2 text-gray-900">
           Tell us about yourself
@@ -125,7 +123,7 @@ const PersonalInfo = () => {
             }}
             error={firstNameError}
             leftIcon={
-              <Ionicons name="person-outline" size={20} color="#a4a4a4" />
+              <Ionicons name="person-outline" size={20} color="#102138" />
             }
             autoCapitalize="words"
             className="mb-6"
@@ -147,7 +145,7 @@ const PersonalInfo = () => {
             }}
             error={lastNameError}
             leftIcon={
-              <Ionicons name="person-outline" size={20} color="#a4a4a4" />
+              <Ionicons name="person-outline" size={20} color="#102138" />
             }
             autoCapitalize="words"
             className="mb-6"

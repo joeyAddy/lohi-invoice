@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "./constants/endpoints";
+import { agencyEndpoints } from "./endpoints/agency";
 import { authEndpoints } from "./endpoints/auth";
-import { companyEndpoints } from "./endpoints/company";
 import { onboardingEndpoints } from "./endpoints/onboarding";
 import { userEndpoints } from "./endpoints/user";
 
@@ -26,12 +26,12 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "Company", "Invoice"], // Add more tag types as needed
+  tagTypes: ["User", "Agency", "Invoice"], // Add more tag types as needed
   endpoints: (builder) => ({
     // Combine all endpoints
     ...authEndpoints(builder),
     ...userEndpoints(builder),
-    ...companyEndpoints(builder),
+    ...agencyEndpoints(builder),
     ...onboardingEndpoints(builder),
   }),
 });
@@ -55,17 +55,17 @@ export const {
   useChangePasswordMutation,
   useUpdateOnboardingStepMutation,
 
-  // Company hooks
-  useCreateCompanyMutation,
-  useUpdateCompanyMutation,
-  useGetCompanyQuery,
-  useDeleteCompanyMutation,
+  // Agency hooks
+  useCreateAgencyMutation,
+  useUpdateAgencyMutation,
+  useGetAgencyQuery,
+  useDeleteAgencyMutation,
 
   // Onboarding hooks
   useUpdatePersonalInfoMutation,
   useUpdateProfileTypeMutation,
-  useUpdateCompanyInfoMutation,
-  useUploadCompanyLogoMutation,
+  useUpdateAgencyInfoMutation,
+  useUploadAgencyLogoMutation,
   useSelectInvoiceTemplateMutation,
   useCompleteOnboardingMutation,
 } = api;

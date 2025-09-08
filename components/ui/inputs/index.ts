@@ -1,7 +1,10 @@
 export { default as CheckboxInput } from "./checkbox-input";
+export { default as CurrencyInput } from "./currency-input";
 export { default as DefaultInput } from "./default-input";
+export { default as LocationInput } from "./location-input";
 export { default as PasswordInput } from "./password-input";
 export { default as PhoneInput } from "./phone-input";
+export { default as TimezoneInput } from "./timezone-input";
 
 export type { CheckboxInputProps } from "./checkbox-input";
 export type { DefaultInputProps } from "./default-input";

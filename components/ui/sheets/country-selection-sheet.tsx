@@ -1,5 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import React, {
   forwardRef,
   useCallback,
@@ -7,7 +11,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 interface CountryData {
@@ -51,10 +55,10 @@ const CountrySelectionSheet = forwardRef<
   ) => {
     // Refs
     const bottomSheetRef = useRef<BottomSheetModal>(null);
-    const searchInputRef = useRef<TextInput>(null);
+    const searchInputRef = useRef<any>(null);
 
     // Bottom sheet snap points
-    const snapPoints = useMemo(() => ["60%"], []);
+    const snapPoints = useMemo(() => ["60%", "90%"], []);
 
     // Expose methods to parent component
     useImperativeHandle(
@@ -122,6 +126,9 @@ const CountrySelectionSheet = forwardRef<
         enablePanDownToClose
         backdropComponent={renderBackdrop}
         enableDynamicSizing={false}
+        keyboardBehavior="extend"
+        keyboardBlurBehavior="restore"
+        android_keyboardInputMode="adjustResize"
       >
         <View className="flex-1 bg-white">
           {/* Header */}
@@ -136,8 +143,8 @@ const CountrySelectionSheet = forwardRef<
 
             {/* Search Input */}
             <View className="flex-row items-center bg-gray-100 rounded-xs px-3 h-14">
-              <Ionicons name="search" size={20} color="#a4a4a4" />
-              <TextInput
+              <Ionicons name="search" size={20} color="#102138" />
+              <BottomSheetTextInput
                 ref={searchInputRef}
                 className="flex-1 ml-2 text-b-1"
                 placeholder="Search your country"

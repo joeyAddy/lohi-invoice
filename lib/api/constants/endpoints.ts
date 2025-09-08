@@ -23,13 +23,13 @@ export const ENDPOINTS = {
 
   // Onboarding endpoints
   PERSONAL_INFO: "/onboarding/personal-info",
-  COMPANY_INFO: "/onboarding/company-info",
-  COMPANY_LOGO: "/onboarding/company-logo",
+  COMPANY_INFO: "/onboarding/agency-info",
+  COMPANY_LOGO: "/onboarding/agency-logo",
   INVOICE_TEMPLATE: "/onboarding/invoice-template",
   COMPLETE_ONBOARDING: "/onboarding/complete",
   PROFILE_TYPE: "/onboarding/profile-type",
 
-  // Company endpoints
+  // Agency endpoints
   COMPANIES: "/companies",
   COMPANY_BY_ID: (id: string) => `/companies/${id}`,
 

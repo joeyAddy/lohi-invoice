@@ -7,15 +7,15 @@ export type {
   UpdateUserProfileRequest,
   User,
   UserAccount,
-  UserWithCompany,
+  UserWithAgency,
 } from "./user";
 
-// Company types
+// Agency types
 export type {
-  CompanyDetails,
-  CreateCompanyRequest,
-  UpdateCompanyRequest,
-} from "./company";
+  AgencyDetails,
+  CreateAgencyRequest,
+  UpdateAgencyRequest,
+} from "./agency";
 
 // Auth types
 export type {
@@ -36,8 +36,8 @@ export type {
 
 // Onboarding types
 export type {
-  CompanyInfoRequest,
-  CompanyLogoRequest,
+  AgencyInfoRequest,
+  AgencyLogoRequest,
   CompleteOnboardingRequest,
   InvoiceTemplateRequest,
   OnboardingStepResponse,

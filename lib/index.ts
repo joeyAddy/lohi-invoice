@@ -7,6 +7,22 @@ export { useAppDispatch, useAppSelector } from "./hooks/redux";
 export { useAuth } from "./hooks/useAuth";
 export { useOnboarding } from "./hooks/useOnboarding";
 
+// Data exports
+export {
+  getAllCurrencies,
+  getCurrenciesByRegion,
+  getCurrencyByCode,
+  getPopularCurrencies,
+  searchCurrencies,
+} from "./data/currencies";
+export type { CurrencyData } from "./data/currencies";
+export {
+  getAllTimezones,
+  getPopularTimezones,
+  getUserTimezone,
+} from "./data/timezones";
+export type { TimezoneData } from "./data/timezones";
+
 // Utility exports
 export * from "./utils/advancedValidation";
 export * from "./utils/validation";

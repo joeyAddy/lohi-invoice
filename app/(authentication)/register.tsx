@@ -170,7 +170,7 @@ const Register = () => {
             onChangeText={handleEmailChange}
             error={emailError}
             leftIcon={
-              <Ionicons name="mail-outline" size={20} color="#a4a4a4" />
+              <Ionicons name="mail-outline" size={20} color="#102138" />
             }
             keyboardType="email-address"
             autoCapitalize="none"

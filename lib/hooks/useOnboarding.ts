@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import type {
-  CompanyInfoRequest,
-  CompanyLogoRequest,
+  AgencyInfoRequest,
+  AgencyLogoRequest,
   InvoiceTemplateRequest,
   PersonalInfoRequest,
   ProfileTypeRequest, // Add this import
@@ -9,10 +9,10 @@ import type {
 import {
   useCompleteOnboardingMutation,
   useSelectInvoiceTemplateMutation,
-  useUpdateCompanyInfoMutation,
+  useUpdateAgencyInfoMutation,
   useUpdatePersonalInfoMutation,
   useUpdateProfileTypeMutation,
-  useUploadCompanyLogoMutation,
+  useUploadAgencyLogoMutation,
 } from "../api/rtkApi";
 import { selectUser } from "../store/slices/authSlice";
 import { useAppSelector } from "./redux";
@@ -25,10 +25,10 @@ export const useOnboarding = () => {
     useUpdatePersonalInfoMutation();
   const [updateProfileTypeMutation, { isLoading: isUpdatingProfileType }] =
     useUpdateProfileTypeMutation();
-  const [updateCompanyInfoMutation, { isLoading: isUpdatingCompanyInfo }] =
-    useUpdateCompanyInfoMutation();
-  const [uploadCompanyLogoMutation, { isLoading: isUploadingLogo }] =
-    useUploadCompanyLogoMutation();
+  const [updateAgencyInfoMutation, { isLoading: isUpdatingAgencyInfo }] =
+    useUpdateAgencyInfoMutation();
+  const [uploadAgencyLogoMutation, { isLoading: isUploadingLogo }] =
+    useUploadAgencyLogoMutation();
   const [selectInvoiceTemplateMutation, { isLoading: isSelectingTemplate }] =
     useSelectInvoiceTemplateMutation();
   const [completeOnboardingMutation, { isLoading: isCompletingOnboarding }] =
@@ -64,34 +64,34 @@ export const useOnboarding = () => {
     [updatePersonalInfoMutation]
   );
 
-  // Update company info
-  const updateCompanyInfo = useCallback(
-    async (data: CompanyInfoRequest) => {
+  // Update agency info
+  const updateAgencyInfo = useCallback(
+    async (data: AgencyInfoRequest) => {
       try {
-        const result = await updateCompanyInfoMutation(data).unwrap();
+        const result = await updateAgencyInfoMutation(data).unwrap();
         return { success: true, data: result };
       } catch (error: any) {
         const errorMessage =
-          error?.data?.message || "Failed to update company info";
+          error?.data?.message || "Failed to update agency info";
         return { success: false, error: errorMessage };
       }
     },
-    [updateCompanyInfoMutation]
+    [updateAgencyInfoMutation]
   );
 
-  // Upload company logo
-  const uploadCompanyLogo = useCallback(
-    async (data: CompanyLogoRequest) => {
+  // Upload agency logo
+  const uploadAgencyLogo = useCallback(
+    async (data: AgencyLogoRequest) => {
       try {
-        const result = await uploadCompanyLogoMutation(data).unwrap();
+        const result = await uploadAgencyLogoMutation(data).unwrap();
         return { success: true, data: result };
       } catch (error: any) {
         const errorMessage =
-          error?.data?.message || "Failed to upload company logo";
+          error?.data?.message || "Failed to upload agency logo";
         return { success: false, error: errorMessage };
       }
     },
-    [uploadCompanyLogoMutation]
+    [uploadAgencyLogoMutation]
   );
 
   // Select invoice template
@@ -134,15 +134,15 @@ export const useOnboarding = () => {
     // Functions
     updateProfileType, // Add this to returned functions
     updatePersonalInfo,
-    updateCompanyInfo,
-    uploadCompanyLogo,
+    updateAgencyInfo,
+    uploadAgencyLogo,
     selectInvoiceTemplate,
     completeOnboarding,
 
     // Loading states
     isUpdatingProfileType, // Add this loading state
     isUpdatingPersonalInfo,
-    isUpdatingCompanyInfo,
+    isUpdatingAgencyInfo,
     isUploadingLogo,
     isSelectingTemplate,
     isCompletingOnboarding,
@@ -151,7 +151,7 @@ export const useOnboarding = () => {
     isLoading:
       isUpdatingProfileType || // Include in combined loading
       isUpdatingPersonalInfo ||
-      isUpdatingCompanyInfo ||
+      isUpdatingAgencyInfo ||
       isUploadingLogo ||
       isSelectingTemplate ||
       isCompletingOnboarding,

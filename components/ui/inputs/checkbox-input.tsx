@@ -67,7 +67,7 @@ const CheckboxInput = React.forwardRef<View, CheckboxInputProps>(
       sizeConfig[size].checkbox,
       {
         // Checked states
-        "bg-primary-500 border-primary-500":
+        "bg-primary-500 border-primary-500/50":
           isChecked && !disabled && variant === "primary",
         "bg-secondary-500 border-secondary-500":
           isChecked && !disabled && variant === "default",

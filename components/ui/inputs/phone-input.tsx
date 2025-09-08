@@ -121,13 +121,13 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
           <TouchableOpacity
             onPress={openCountrySelector}
             disabled={disabled}
-            className="flex-row items-center px-3 h-11 ml-[6.5px] rounded-xs bg-gray-200"
+            className="flex-row items-center px-3 h-[35px] ml-[6.5px] rounded-[8px] bg-gray-200"
           >
             <Text className="text-xl mr-2">{selectedCountry.flag}</Text>
             <Text className="text-b-1 text-gray-900 mr-1">
               +{selectedCountry.phonecode}
             </Text>
-            <Ionicons name="chevron-down" size={16} color="#a4a4a4" />
+            <Ionicons name="chevron-down" size={16} color="#102138" />
           </TouchableOpacity>
 
           {/* Phone Number Input */}

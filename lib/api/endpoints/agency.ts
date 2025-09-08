@@ -1,43 +1,43 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/query/react";
 import type {
-  CompanyDetails,
-  CreateCompanyRequest,
-  UpdateCompanyRequest,
+  AgencyDetails,
+  CreateAgencyRequest,
+  UpdateAgencyRequest,
 } from "../../../interfaces";
 import { ENDPOINTS } from "../constants/endpoints";
 
-export const companyEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
-  createCompany: builder.mutation<CompanyDetails, CreateCompanyRequest>({
+export const agencyEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
+  createAgency: builder.mutation<AgencyDetails, CreateAgencyRequest>({
     query: (data) => ({
       url: ENDPOINTS.COMPANIES,
       method: "POST",
       body: data,
     }),
-    invalidatesTags: ["User", "Company"],
+    invalidatesTags: ["User", "Agency"],
   }),
 
-  updateCompany: builder.mutation<CompanyDetails, UpdateCompanyRequest>({
+  updateAgency: builder.mutation<AgencyDetails, UpdateAgencyRequest>({
     query: ({ id, ...data }) => ({
       url: ENDPOINTS.COMPANY_BY_ID(id),
       method: "PATCH",
       body: data,
     }),
-    invalidatesTags: ["User", "Company"],
+    invalidatesTags: ["User", "Agency"],
   }),
 
-  getCompany: builder.query<CompanyDetails, string>({
+  getAgency: builder.query<AgencyDetails, string>({
     query: (id) => ({
       url: ENDPOINTS.COMPANY_BY_ID(id),
       method: "GET",
     }),
-    providesTags: ["Company"],
+    providesTags: ["Agency"],
   }),
 
-  deleteCompany: builder.mutation<{ message: string }, string>({
+  deleteAgency: builder.mutation<{ message: string }, string>({
     query: (id) => ({
       url: ENDPOINTS.COMPANY_BY_ID(id),
       method: "DELETE",
     }),
-    invalidatesTags: ["User", "Company"],
+    invalidatesTags: ["User", "Agency"],
   }),
 });

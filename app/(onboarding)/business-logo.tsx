@@ -8,10 +8,10 @@ import React, { useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CompanyLogo = () => {
+const AgencyLogo = () => {
   const [logoUri, setLogoUri] = useState<string | null>(null);
 
-  const { uploadCompanyLogo, isUploadingLogo } = useOnboarding();
+  const { uploadAgencyLogo, isUploadingLogo } = useOnboarding();
 
   const pickImage = async () => {
     // For now, we'll use a placeholder - you can add expo-image-picker later
@@ -29,14 +29,14 @@ const CompanyLogo = () => {
     }
 
     if (logoUri) {
-      const result = await uploadCompanyLogo({
+      const result = await uploadAgencyLogo({
         logo: logoUri,
       });
 
       if (result.success) {
         router.push("/(onboarding)/invoice-template");
       } else {
-        Alert.alert("Error", result.error || "Failed to upload company logo");
+        Alert.alert("Error", result.error || "Failed to upload agency logo");
       }
     }
   };
@@ -50,7 +50,7 @@ const CompanyLogo = () => {
       <View className="w-full p-4">
         {/* Header */}
         <Header
-          title="Company Logo"
+          title="Agency Logo"
           leftIcon="arrow-back"
           onPressLeftIcon={handleBack}
           className="mb-8"
@@ -63,7 +63,7 @@ const CompanyLogo = () => {
 
         {/* Title */}
         <Text className="text-h-3 mb-2 text-gray-900">
-          Add your company logo
+          Add your business logo
         </Text>
         <Text className="text-b-1 mb-8 text-gray-600">
           Make your invoices look professional and branded
@@ -72,7 +72,7 @@ const CompanyLogo = () => {
         {/* Logo upload section */}
         <View className="mb-8">
           <Text className="text-b-1 font-semibold mb-4 text-gray-900">
-            Company Logo (optional)
+            Business Logo (optional)
           </Text>
 
           {logoUri ? (
@@ -93,7 +93,7 @@ const CompanyLogo = () => {
             <View className="border-2 border-dashed border-gray-300 rounded-lg p-8 items-center">
               <Ionicons name="cloud-upload-outline" size={48} color="#9CA3AF" />
               <Text className="text-gray-500 text-b-2 mb-4 text-center">
-                Upload your company logo
+                Upload your agency logo
               </Text>
               <Pressable
                 onPress={pickImage}
@@ -133,4 +133,4 @@ const CompanyLogo = () => {
   );
 };
 
-export default CompanyLogo;
+export default AgencyLogo;

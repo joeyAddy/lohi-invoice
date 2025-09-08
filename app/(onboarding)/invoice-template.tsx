@@ -92,7 +92,7 @@ const InvoiceTemplate = () => {
           title="Invoice Template"
           leftIcon="arrow-back"
           onPressLeftIcon={handleBack}
-          className="mb-8"
+          className="mb-6"
         />
 
         {/* Step indicator */}

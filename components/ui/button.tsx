@@ -38,7 +38,7 @@ const Button = React.forwardRef<View, ButtonProps>(
 
     const variantClasses = {
       primary: "bg-primary-500 active:bg-primary-600",
-      outline: "border border-primary-500 bg-transparent active:bg-primary-100",
+      outline: "border border-primary-500/50 bg-transparent active:bg-primary-100",
     };
 
     const sizeClasses = {

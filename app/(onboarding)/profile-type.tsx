@@ -1,4 +1,5 @@
 import { Header } from "@/components/shared";
+import { Badge } from "@/components/ui";
 import Button from "@/components/ui/button";
 import { ProfileTypeRequest, useOnboarding } from "@/lib";
 import { router } from "expo-router";
@@ -27,6 +28,14 @@ const ProfileTypeSelection = () => {
 
   const handleContinue = async () => {
     if (!selectedProfile) return;
+
+    setTimeout(() => {
+      if (selectedProfile === "agency") {
+        router.push("/(onboarding)/agency-info");
+      } else {
+        router.push("/(onboarding)/freelancer-info");
+      }
+    }, 2000); // Wait 2 seconds before navigating
 
     setHasSubmitted(true);
 
@@ -65,11 +74,15 @@ const ProfileTypeSelection = () => {
       <View className="w-full p-4">
         {/* Header */}
         <Header
-          title="Profile Type"
+          title="Profile Setup"
           leftIcon="arrow-back-outline"
           onPressLeftIcon={handleGoBack}
           className="mb-8"
         />
+        {/* Step indicator */}
+        <View className="mb-8">
+          <Badge text="step 2 of 3" leftIcon="person-outline" />
+        </View>
 
         {/* Title */}
         <Text className="text-h-5 mb-2 text-gray-900">Choose your persona</Text>
