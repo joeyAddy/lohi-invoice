@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import StatItem from "./stat-item";
 
 interface StatsCardProps {
   totalEarning: string;
@@ -34,14 +35,28 @@ export default function StatsCard({
     { value: 8, frontColor: "#ffffff" },
   ];
 
+  // Stat items data array
+  const statItems = [
+    {
+      title: "Paid this month",
+      amount: paidThisMonth,
+      percentage: paidThisMonthPercentage,
+    },
+    {
+      title: "Awaiting payment",
+      amount: awaitingPayment,
+      percentage: awaitingPaymentPercentage,
+    },
+  ];
+
   return (
     <View className="mx-4 mb-6">
       <View className="bg-primary-600 rounded-xs p-6">
         <View className="flex-row justify-between">
           {/* Left Side - Chart and Total Earning */}
-          <View className="flex-[0.3] pr-4 justify-between">
+          <View className="flex-[0.4] pr-4 justify-between">
             {/* Chart Section */}
-            <View className="-ml-3">
+            <View className="-ml-4">
               <BarChart
                 data={barData}
                 width={140}
@@ -74,66 +89,16 @@ export default function StatsCard({
           </View>
 
           {/* Right Side - Two Stat Cards */}
-          <View className="flex-[0.7] justify-between">
-            {/* Paid this month card */}
-            <View className="relative">
-              <View className="bg-primary-100/10 rounded-xs p-4 pr-16">
-                <Text className="text-white/80 text-xs mb-1">
-                  Paid this month
-                </Text>
-                <Text className="text-white text-xl font-bold">
-                  {paidThisMonth}
-                </Text>
-              </View>
-              {/* Curved cutout with percentage */}
-              <View
-                className="absolute bg-primary-600 rounded-l-full items-center justify-center px-3 py-2"
-                style={{
-                  right: 0,
-                  top: "50%",
-                  marginTop: -16,
-                  minWidth: 50,
-                  height: 32,
-                }}
-              >
-                <View className="flex-row items-center">
-                  <View className="w-2 h-2 bg-green-400 rounded-full mr-2" />
-                  <Text className="text-green-400 text-xs font-bold">
-                    {paidThisMonthPercentage}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* Awaiting payment card */}
-            <View className="relative mt-4">
-              <View className="bg-primary-100/10 rounded-xs p-4 pr-16">
-                <Text className="text-white/80 text-xs mb-1">
-                  Awaiting payment
-                </Text>
-                <Text className="text-white text-xl font-bold">
-                  {awaitingPayment}
-                </Text>
-              </View>
-              {/* Curved cutout with percentage */}
-              <View
-                className="absolute bg-primary-600 rounded-l-full items-center justify-center px-3 py-2"
-                style={{
-                  right: 0,
-                  top: "50%",
-                  marginTop: -16,
-                  minWidth: 50,
-                  height: 32,
-                }}
-              >
-                <View className="flex-row items-center">
-                  <View className="w-2 h-2 bg-green-400 rounded-full mr-2" />
-                  <Text className="text-green-400 text-xs font-bold">
-                    {awaitingPaymentPercentage}
-                  </Text>
-                </View>
-              </View>
-            </View>
+          {/* Right side - Stat Items */}
+          <View className="flex-[0.6] gap-3">
+            {statItems.map((item, index) => (
+              <StatItem
+                key={index}
+                title={item.title}
+                amount={item.amount}
+                percentage={item.percentage}
+              />
+            ))}
           </View>
         </View>
       </View>
