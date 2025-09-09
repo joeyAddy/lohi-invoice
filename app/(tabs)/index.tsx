@@ -1,4 +1,5 @@
 import { useAuth, useAuthGuard } from "@/lib/hooks/useAuth";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -16,6 +17,8 @@ import {
 } from "../../components/home";
 
 const Home = () => {
+  const router = useRouter();
+
   // Check authentication and redirect if not logged in
   const { isAuthenticated, isLoading: authGuardLoading } = useAuthGuard();
 
@@ -157,8 +160,8 @@ const Home = () => {
             console.log("Navigate to all invoices screen");
           }}
           onInvoicePress={(invoice) => {
-            // Handle navigation to invoice details
-            console.log("Navigate to invoice:", invoice.title);
+            // Navigate to invoice details page
+            router.push(`/invoices/${invoice.id}`);
           }}
         />
       </ScrollView>

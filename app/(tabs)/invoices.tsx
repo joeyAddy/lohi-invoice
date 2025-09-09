@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CreateInvoiceButton from "../../components/invoices/CreateInvoiceButton";
+import CreateInvoiceButton from "../../components/invoices/create-Invoice-button";
 import InvoicesHeader from "../../components/invoices/InvoicesHeader";
 import InvoicesList from "../../components/invoices/InvoicesList";
 import InvoicesStats from "../../components/invoices/InvoicesStats";
