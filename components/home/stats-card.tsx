@@ -81,8 +81,8 @@ export default function StatsCard({
 
             {/* Total Earning */}
             <View>
-              <Text className="text-white/80 text-sm mb-1">Total Earning</Text>
-              <Text className="text-white text-3xl font-bold">
+              <Text className="text-white/80 text-b-3 mb-1">Total Earning</Text>
+              <Text className="text-white text-h-4 font-dm-sans-bold">
                 {totalEarning}
               </Text>
             </View>

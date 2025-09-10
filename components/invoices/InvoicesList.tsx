@@ -1,13 +1,16 @@
-import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import InvoiceItem from "./invoice-item";
 
 interface Invoice {
   id: string;
   clientName: string;
+  clientEmail: string;
+  clientAvatar: string;
   amount: string;
-  status: "paid" | "pending" | "overdue" | "draft";
-  dueDate: string;
+  status: "Paid" | "Unpaid" | "Over Due" | "Draft";
+  date: string;
   invoiceNumber: string;
 }
 
@@ -15,150 +18,81 @@ export default function InvoicesList() {
   const mockInvoices: Invoice[] = [
     {
       id: "1",
-      clientName: "Acme Corporation",
-      amount: "$2,500.00",
-      status: "paid",
-      dueDate: "Aug 15, 2024",
-      invoiceNumber: "INV-001",
+      clientName: "Jansen Ackless",
+      clientEmail: "jansen@06gmail.com",
+      clientAvatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      amount: "$5,200",
+      status: "Paid",
+      date: "04 December 2024",
+      invoiceNumber: "#0023",
     },
     {
       id: "2",
-      clientName: "Tech Solutions Ltd",
-      amount: "$1,800.00",
-      status: "pending",
-      dueDate: "Sep 10, 2024",
-      invoiceNumber: "INV-002",
+      clientName: "Vladimir Petkovic",
+      clientEmail: "Vladimir@gmail.com",
+      clientAvatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+      amount: "$7,447",
+      status: "Unpaid",
+      date: "24 November 2024",
+      invoiceNumber: "#0023",
     },
     {
       id: "3",
-      clientName: "Creative Agency",
-      amount: "$950.00",
-      status: "overdue",
-      dueDate: "Aug 25, 2024",
-      invoiceNumber: "INV-003",
+      clientName: "Sarah Mitchell",
+      clientEmail: "sarah@design.com",
+      clientAvatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b60c2e24?w=150&h=150&fit=crop&crop=face",
+      amount: "$3,850",
+      status: "Over Due",
+      date: "15 November 2024",
+      invoiceNumber: "#0024",
     },
     {
       id: "4",
-      clientName: "Startup Inc",
-      amount: "$3,200.00",
-      status: "draft",
-      dueDate: "Sep 20, 2024",
-      invoiceNumber: "INV-004",
+      clientName: "Michael Chen",
+      clientEmail: "michael@startup.com",
+      clientAvatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      amount: "$2,100",
+      status: "Draft",
+      date: "10 November 2024",
+      invoiceNumber: "#0025",
     },
   ];
 
-  const getStatusColor = (status: Invoice["status"]) => {
-    switch (status) {
-      case "paid":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "overdue":
-        return "bg-red-100 text-red-800";
-      case "draft":
-        return "bg-neutral-100 text-neutral-600";
-      default:
-        return "bg-neutral-100 text-neutral-600";
-    }
-  };
-
-  const getStatusIcon = (status: Invoice["status"]) => {
-    switch (status) {
-      case "paid":
-        return "checkmark-circle";
-      case "pending":
-        return "time";
-      case "overdue":
-        return "warning";
-      case "draft":
-        return "document-outline";
-      default:
-        return "document-outline";
-    }
+  const handleInvoicePress = (invoice: Invoice) => {
+    router.push(`/invoices/${invoice.id}`);
   };
 
   return (
     <View>
       <View className="flex-row items-center justify-between mb-4">
-        <Text className="text-lg font-semibold text-primary-600">
-          Recent Invoices
+        <Text className="text-gray-900 text-h-6 font-dm-sans-bold">
+          Invoice
         </Text>
         <TouchableOpacity>
-          <Text className="text-sm text-primary-500 font-medium">View All</Text>
+          <Text className="text-gray-500 text-b-2 font-dm-sans">See all</Text>
         </TouchableOpacity>
       </View>
 
-      <View className="space-y-3">
+      <ScrollView showsVerticalScrollIndicator={false}>
         {mockInvoices.map((invoice) => (
-          <TouchableOpacity
+          <InvoiceItem
             key={invoice.id}
-            className="bg-white border border-neutral-200 rounded-lg p-4 shadow-sm"
-          >
-            <View className="flex-row items-center justify-between mb-3">
-              <View className="flex-1">
-                <Text className="text-base font-semibold text-primary-600">
-                  {invoice.clientName}
-                </Text>
-                <Text className="text-sm text-neutral-600">
-                  {invoice.invoiceNumber}
-                </Text>
-              </View>
-
-              <View className="items-end">
-                <Text className="text-lg font-bold text-primary-600">
-                  {invoice.amount}
-                </Text>
-                <Text className="text-xs text-neutral-500">
-                  Due: {invoice.dueDate}
-                </Text>
-              </View>
-            </View>
-
-            <View className="flex-row items-center justify-between">
-              <View
-                className={`flex-row items-center px-3 py-1 rounded-full ${getStatusColor(
-                  invoice.status
-                )}`}
-              >
-                <Ionicons
-                  name={getStatusIcon(invoice.status) as any}
-                  size={12}
-                  color={
-                    invoice.status === "paid"
-                      ? "#16a34a"
-                      : invoice.status === "pending"
-                        ? "#ca8a04"
-                        : invoice.status === "overdue"
-                          ? "#dc2626"
-                          : "#6b7280"
-                  }
-                />
-                <Text
-                  className={`text-xs font-medium ml-1 capitalize ${
-                    invoice.status === "paid"
-                      ? "text-green-800"
-                      : invoice.status === "pending"
-                        ? "text-yellow-800"
-                        : invoice.status === "overdue"
-                          ? "text-red-800"
-                          : "text-neutral-600"
-                  }`}
-                >
-                  {invoice.status}
-                </Text>
-              </View>
-
-              <TouchableOpacity className="p-2">
-                <Ionicons
-                  name="ellipsis-horizontal"
-                  size={16}
-                  color="#8e8e8e"
-                />
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+            id={invoice.id}
+            clientName={invoice.clientName}
+            clientEmail={invoice.clientEmail}
+            clientAvatar={invoice.clientAvatar}
+            amount={invoice.amount}
+            invoiceNumber={invoice.invoiceNumber}
+            date={invoice.date}
+            status={invoice.status}
+            onPress={() => handleInvoicePress(invoice)}
+          />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }

@@ -11,8 +11,8 @@ export default function StatItem({ title, amount, percentage }: StatItemProps) {
   return (
     <View className="relative">
       <View className="bg-primary-100/10 rounded-xs p-4 pr-16">
-        <Text className="text-white/80 text-xs mb-1">{title}</Text>
-        <Text className="text-white text-xl font-bold">{amount}</Text>
+        <Text className="text-white/80 text-b-3 mb-1">{title}</Text>
+        <Text className="text-white text-h-6 font-dm-sans-bold">{amount}</Text>
       </View>
 
       {/* Curved cutout with percentage */}

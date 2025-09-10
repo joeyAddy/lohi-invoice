@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import InvoiceCard from "./invoice-card";
+import InvoiceCard from "./home-invoice-card";
 
 interface Invoice {
   id: string;
@@ -28,7 +28,7 @@ export default function RecentInvoices({
     <View className="mx-4 mb-6">
       {/* Header */}
       <View className="flex-row items-center justify-between mb-4">
-        <Text className="text-gray-900 text-xl font-semibold">
+        <Text className="text-gray-900 text-h-6 font-dm-sans-bold">
           Recent invoices
         </Text>
         <TouchableOpacity onPress={onSeeAllPress} activeOpacity={0.7}>

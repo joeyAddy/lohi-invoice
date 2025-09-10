@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
+import { Separator } from "../shared";
 import InvoiceActionButtons from "./invoice-action-buttons";
 
 interface InvoiceHeaderCardProps {
@@ -62,7 +63,7 @@ export default function InvoiceHeaderCard({
     <View className="mx-4 mb-6">
       <View className="bg-primary-500 justify-between rounded-xs p-6">
         {/* Invoice Number */}
-        <Text className="text-white text-2xl font-bold mb-6">
+        <Text className="text-white text-h-4 font-dm-sans-bold mb-6">
           Invoice #{invoiceNumber}
         </Text>
 
@@ -70,28 +71,40 @@ export default function InvoiceHeaderCard({
         <View className="flex-row justify-between mb-6">
           {/* Invoice Date */}
           <View>
-            <Text className="text-white/80 text-sm mb-1">Invoice Date</Text>
-            <Text className="text-white text-lg font-semibold">
+            <Text className="text-white/80 text-label-s font-dm-sans mb-1">
+              Invoice Date
+            </Text>
+            <Text className="text-white text-b-1 font-dm-sans-medium">
               {invoiceDate}
             </Text>
           </View>
 
+          <Separator orientation="vertical" type="solid" />
+
           {/* Total Amount */}
           <View className="items-center">
-            <Text className="text-white/80 text-sm mb-1">Total Amount</Text>
-            <Text className="text-white text-lg font-semibold">
+            <Text className="text-white/80 text-label-s font-dm-sans mb-1">
+              Total Amount
+            </Text>
+            <Text className="text-white text-b-1 font-dm-sans-medium">
               {totalAmount}
             </Text>
           </View>
 
+          <Separator orientation="vertical" type="solid" />
+
           {/* Status */}
           <View className="items-end">
-            <Text className="text-white/80 text-sm mb-1">Status</Text>
+            <Text className="text-white/80 text-label-s font-dm-sans mb-1">
+              Status
+            </Text>
             <View className="flex-row items-center">
-              <Text className={`text-md mr-1 ${getStatusColor()}`}>
+              <Text className={`text-b-1 mr-1 ${getStatusColor()}`}>
                 {getStatusIcon()}
               </Text>
-              <Text className="text-white text-lg font-semibold">{status}</Text>
+              <Text className="text-white text-b-1 font-dm-sans-medium">
+                {status}
+              </Text>
             </View>
           </View>
         </View>

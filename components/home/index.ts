@@ -2,7 +2,7 @@ export { default as AvatarGroup } from "./avatar-group";
 export { default as ClientAvatar } from "./client-avatar";
 export { default as ClientSection } from "./client-section";
 export { default as HomeHeader } from "./home-header";
-export { default as InvoiceCard } from "./invoice-card";
+export { default as InvoiceCard } from "./home-invoice-card";
 export { default as OverflowAvatar } from "./overflow-avatar";
 export { default as RecentInvoices } from "./recent-invoices";
 export { default as SearchBar } from "./search-bar";

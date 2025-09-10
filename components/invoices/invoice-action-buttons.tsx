@@ -20,7 +20,9 @@ export default function InvoiceActionButtons({
         activeOpacity={0.8}
       >
         <Ionicons name="share-outline" size={20} color="white" />
-        <Text className="text-white text-lg font-semibold ml-2">Share</Text>
+        <Text className="text-white text-label-m font-dm-sans-medium ml-2">
+          Share
+        </Text>
       </TouchableOpacity>
 
       {/* Edit Button */}
@@ -30,7 +32,7 @@ export default function InvoiceActionButtons({
         activeOpacity={0.8}
       >
         <Ionicons name="create-outline" size={20} color="#1b365d" />
-        <Text className="text-primary-500 text-lg font-semibold ml-2">
+        <Text className="text-primary-500 text-label-m font-dm-sans-medium ml-2">
           Edit
         </Text>
       </TouchableOpacity>

@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   InvoiceCompanyInfo,
@@ -8,7 +8,6 @@ import {
   InvoiceItemDetails,
 } from "../../components/invoices";
 import { Header } from "../../components/shared";
-import { Button } from "../../components/ui";
 
 export default function InvoiceDetailsScreen() {
   const router = useRouter();
@@ -64,9 +63,10 @@ export default function InvoiceDetailsScreen() {
         title="Invoice Details"
         leftIcon="chevron-back"
         onPressLeftIcon={handleBack}
-        rightIcon="ellipsis-horizontal"
+        rightIcon="page-export-pdf"
         onPressRightIcon={() => {
           console.log("Show invoice menu");
+          handleDownloadPDF();
         }}
         className="px-4 pt-2"
       />
@@ -95,13 +95,6 @@ export default function InvoiceDetailsScreen() {
           lineItems={mockInvoiceData.lineItems}
           totalAmount={mockInvoiceData.totalAmount}
         />
-
-        {/* Download PDF Button */}
-        <View className="mx-4 mb-6">
-          <Button variant="primary" size="lg" onPress={handleDownloadPDF}>
-            Download PDF
-          </Button>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );

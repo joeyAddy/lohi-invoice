@@ -45,12 +45,6 @@
   .text-label-l {
     @apply font-medium;
   }
-
-  /* Component heading classes - Playfair Display Bold */
-  .text-heading-m,
-  .text-heading-l {
-    @apply font-playfair-bold;
-  }
 }
 
 /* Essential font utilities only */

@@ -21,10 +21,8 @@ export default function TutorialCard({
         activeOpacity={0.7}
       >
         <View className="flex-1">
-          <Text className="text-primary-900 text-lg font-semibold mb-1">
-            {title}
-          </Text>
-          <Text className="text-primary-700 text-base">{description}</Text>
+          <Text className="text-h-6 font-dm-sans-bold mb-1">{title}</Text>
+          <Text className="text-b-2">{description}</Text>
         </View>
 
         <View className="ml-4">

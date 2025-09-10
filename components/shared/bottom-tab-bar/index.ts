@@ -1,2 +1,2 @@
-export { default as CustomTabBar } from "./CustomTabBar";
-export { default as TabBarItem } from "./TabBarItem";
+export { default as CustomTabBar } from "./custom-tab-bar";
+export { default as TabBarItem } from "./tab-bar-item";

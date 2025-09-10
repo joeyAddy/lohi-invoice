@@ -36,10 +36,12 @@ export default function Header({ user }: HeaderProps) {
 
         {/* Greeting Text */}
         <View>
-          <Text className="text-gray-900 text-lg font-semibold">
+          <Text className="text-gray-900 text-lg font-dm-sans-bold">
             Hi {user?.firstName || "User"}
           </Text>
-          <Text className="text-gray-500 text-sm">{getGreeting()}</Text>
+          <Text className="text-gray-500 text-sm font-dm-sans">
+            {getGreeting()}
+          </Text>
         </View>
       </View>
 

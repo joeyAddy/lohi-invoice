@@ -29,10 +29,10 @@ export default function ClientSection({
         <View className="flex-row items-center justify-between">
           {/* Left side - Title and count */}
           <View>
-            <Text className="text-gray-900 text-lg font-semibold mb-1">
+            <Text className="text-label-m text-lg font-dm-sans-bold mb-1">
               Client
             </Text>
-            <Text className="text-gray-500 text-sm">
+            <Text className="text-gray-500 text-sm font-dm-sans">
               {clientCount} Client{clientCount !== 1 ? "s" : ""}
             </Text>
           </View>

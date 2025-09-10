@@ -1,4 +1,2 @@
-export { default as ReportsCharts } from "./ReportsCharts";
-export { default as ReportsFilters } from "./ReportsFilters";
-export { default as ReportsHeader } from "./ReportsHeader";
-export { default as ReportsOverview } from "./ReportsOverview";
+export { default as ReportsCharts } from "./report-charts";
+export { default as ReportsOverview } from "./reports-overview";

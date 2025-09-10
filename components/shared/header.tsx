@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Foundation, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -6,7 +6,7 @@ export interface HeaderProps {
   title?: string;
   leftIcon?: keyof typeof Ionicons.glyphMap;
   onPressLeftIcon?: () => void;
-  rightIcon?: keyof typeof Ionicons.glyphMap;
+  rightIcon?: keyof typeof Ionicons.glyphMap | keyof typeof Foundation.glyphMap;
   onPressRightIcon?: () => void;
   className?: string;
 }
@@ -45,7 +45,19 @@ const Header: React.FC<HeaderProps> = ({
             onPress={onPressRightIcon}
             className="w-12 h-12 bg-gray-100 rounded-xs items-center justify-center"
           >
-            <Ionicons name={rightIcon} size={20} color="#374151" />
+            {rightIcon in Foundation.glyphMap ? (
+              <Foundation
+                name={rightIcon as keyof typeof Foundation.glyphMap}
+                size={20}
+                color="#374151"
+              />
+            ) : (
+              <Ionicons
+                name={rightIcon as keyof typeof Ionicons.glyphMap}
+                size={20}
+                color="#374151"
+              />
+            )}
           </Pressable>
         )}
       </View>
