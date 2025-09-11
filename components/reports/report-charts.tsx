@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 
 export default function ReportsCharts() {
@@ -30,8 +30,10 @@ export default function ReportsCharts() {
     { value: 50 },
   ];
 
+  const [chartWidth, setChartWidth] = useState(0);
+
   return (
-    <View>
+    <View className="mb-6">
       {/* Revenue Chart Card */}
       <View className="bg-gray-50 rounded-xs border border-gray-200">
         {/* Header with total and period selector */}
@@ -63,55 +65,61 @@ export default function ReportsCharts() {
         {/* Revenue Trend Chart */}
         <View
           className="px-2 py-4 overflow-hidden"
-          style={{ alignItems: "center", width: "100%" }}
+          style={{ width: "100%" }}
+          onLayout={(e) => {
+            const w = e.nativeEvent.layout.width;
+            if (w !== chartWidth) setChartWidth(w);
+          }}
         >
-          <LineChart
-            areaChart
-            curved
-            data={data1}
-            data2={data2}
-            hideDataPoints={false}
-            dataPointsColor1="#3b82f6"
-            dataPointsColor2="#10b981"
-            dataPointsRadius={3}
-            spacing={38}
-            color1="#3b82f6" // Light blue
-            color2="#10b981" // Light green
-            startFillColor1="#3b82f6"
-            startFillColor2="#10b981"
-            endFillColor1="#3b82f6"
-            endFillColor2="#10b981"
-            startOpacity={0.8}
-            endOpacity={0.1}
-            initialSpacing={10}
-            endSpacing={10}
-            noOfSections={4}
-            maxValue={60}
-            yAxisColor="transparent"
-            yAxisThickness={0}
-            rulesType="solid"
-            rulesColor="#f1f5f9"
-            yAxisTextStyle={{
-              color: "#94a3b8",
-              fontSize: 11,
-              fontFamily: "DMSans-Regular",
-            }}
-            yAxisLabelSuffix="k"
-            xAxisColor="transparent"
-            xAxisLabelTextStyle={{
-              color: "#94a3b8",
-              fontSize: 11,
-              fontFamily: "DMSans-Regular",
-            }}
-            width={Dimensions.get("screen").width - 48}
-            height={180}
-            hideAxesAndRules={false}
-            showVerticalLines={false}
-            thickness1={2}
-            thickness2={2}
-            isAnimated={true}
-            animationDuration={1000}
-          />
+          {chartWidth > 0 && (
+            <LineChart
+              areaChart
+              curved
+              data={data1}
+              data2={data2}
+              hideDataPoints={false}
+              dataPointsColor1="#3b82f6"
+              dataPointsColor2="#10b981"
+              dataPointsRadius={3}
+              spacing={38}
+              color1="#3b82f6" // Light blue
+              color2="#10b981" // Light green
+              startFillColor1="#3b82f6"
+              startFillColor2="#10b981"
+              endFillColor1="#3b82f6"
+              endFillColor2="#10b981"
+              startOpacity={0.8}
+              endOpacity={0.1}
+              initialSpacing={10}
+              endSpacing={10}
+              noOfSections={4}
+              maxValue={60}
+              yAxisColor="transparent"
+              yAxisThickness={0}
+              rulesType="solid"
+              rulesColor="#f1f5f9"
+              yAxisTextStyle={{
+                color: "#94a3b8",
+                fontSize: 11,
+                fontFamily: "DMSans-Regular",
+              }}
+              yAxisLabelSuffix="k"
+              xAxisColor="transparent"
+              xAxisLabelTextStyle={{
+                color: "#94a3b8",
+                fontSize: 11,
+                fontFamily: "DMSans-Regular",
+              }}
+              width={chartWidth}
+              height={180}
+              hideAxesAndRules={false}
+              showVerticalLines={false}
+              thickness1={2}
+              thickness2={2}
+              isAnimated={true}
+              animationDuration={1000}
+            />
+          )}
         </View>
       </View>
     </View>
