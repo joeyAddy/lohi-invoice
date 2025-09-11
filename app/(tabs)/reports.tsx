@@ -1,8 +1,8 @@
+import StackedGroupedChart from "@/components/reports/stacked-grouped-chart";
 import { Header } from "@/components/shared";
 import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ReportsCharts from "../../components/reports/report-charts";
 import ReportsOverview from "../../components/reports/reports-overview";
 
 export default function ReportsScreen() {
@@ -29,7 +29,7 @@ export default function ReportsScreen() {
         contentContainerStyle={{ paddingBottom: 100 }}
       >
         <ReportsOverview />
-        <ReportsCharts />
+        <StackedGroupedChart />
       </ScrollView>
     </SafeAreaView>
   );

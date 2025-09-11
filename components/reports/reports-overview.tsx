@@ -21,7 +21,7 @@ export default function ReportsOverview() {
   ];
 
   return (
-    <View className="mt-2 mb-6">
+    <View className="mt-2">
       {/* Over View Section Title */}
       <Text className="text-gray-900 text-h-6 font-dm-sans-bold mb-4">
         Over View
