@@ -68,9 +68,9 @@ export default function StackedGroupedChart({
     return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
   }, [categories]);
 
-  const margins = { top: 8, right: 20, bottom: 28, left: 20 };
+  const margins = { top: 8, right: 16, bottom: 28, left: 16 };
   const innerWidth = Math.max(0, width - margins.left - margins.right);
-  const innerHeight = Math.max(0, height - margins.top - margins.bottom);
+  const innerHeight = Math.max(0, height - margins.top - margins.bottom) + 40;
 
   // prepare stacked data
   const stackKeys = series.map((s) => s.key);
@@ -80,18 +80,20 @@ export default function StackedGroupedChart({
     return obj;
   });
 
+  // ensure order so later keys are drawn on top
   const stackGen = d3.stack().keys(stackKeys as any);
   const stacked = stackGen(valuesByCategory as any);
 
   // scales
-  const x0 = d3.scaleBand().domain(cats).range([0, innerWidth]).padding(0.18);
+  // tighter bands so bars are thin and closely packed like the reference image
+  const x0 = d3.scaleBand().domain(cats).range([0, innerWidth]).padding(0.02);
 
   // For grouped mode: inner band for each series inside a category
   const x1 = d3
     .scaleBand()
     .domain(stackKeys)
     .range([0, x0.bandwidth()])
-    .padding(0.08);
+    .padding(0.01);
 
   const maxStack =
     (d3
@@ -103,7 +105,21 @@ export default function StackedGroupedChart({
   const yMax = Math.ceil(Math.max(maxStack, maxGroup) * 1.05);
   const y = d3.scaleLinear().domain([0, yMax]).range([innerHeight, 0]);
 
-  const color = d3.scaleOrdinal(d3.schemeCategory10).domain(stackKeys as any);
+  // dark-cyan to dark-blue palette (bottom -> top)
+  const palette = [
+    "#008b8b", // dark cyan
+    "#007a9e",
+    "#00688f",
+    "#00577f",
+    "#00456f",
+    "#00335f",
+    "#002147", // dark blue
+  ];
+
+  const color = d3
+    .scaleOrdinal<string>()
+    .domain(stackKeys as any)
+    .range(palette as any);
 
   // Animation references for each category & series: stores Animated.Value for y and height
   const animRef = useRef<
@@ -215,7 +231,9 @@ export default function StackedGroupedChart({
       className="bg-gray-100 border border-gray-200 rounded-xs"
     >
       <View className="flex-row justify-between items-center p-4">
-        <Text className="text-h-6 font-dm-sans-bold">Revenue</Text>
+        <Text className="text-h-5 font-dm-sans-bold">
+          $53,546k <Text className="text-xs font-dm-sans-regular">(21.4%)</Text>
+        </Text>
         <View className="flex-row">
           <TouchableOpacity
             onPress={() => setMode("stacked")}
@@ -262,7 +280,7 @@ export default function StackedGroupedChart({
       >
         <Svg width={innerWidth} height={innerHeight + margins.bottom}>
           <G y={margins.top}>
-            {/* horizontal grid lines and y labels */}
+            {/* horizontal grid lines and y labels (very subtle) */}
             {(d3 ? d3.range(5) : [0, 1, 2, 3, 4]).map((i: number) => {
               const v = (yMax / 4) * i;
               const yPos = y(v);
@@ -273,14 +291,14 @@ export default function StackedGroupedChart({
                     y={yPos}
                     width={innerWidth}
                     height={1}
-                    fill={"#ccc"}
+                    fill={"#e6f0f8"}
                     opacity={0.9}
                   />
                   <SvgText
                     x={-8}
                     y={yPos + 4}
                     fontSize={10}
-                    fill={"#4B5563"} // tailwind gray-600
+                    fill={"#6b7280"} // tailwind gray-500
                     textAnchor="end"
                     fontFamily={"DMSans-Regular"}
                   >
@@ -289,6 +307,15 @@ export default function StackedGroupedChart({
                 </G>
               );
             })}
+
+            {/* baseline */}
+            <Rect
+              x={0}
+              y={innerHeight}
+              width={innerWidth}
+              height={1}
+              fill={"#111827"}
+            />
 
             {/* bars */}
             {cats.map((cat, i) => {
@@ -308,7 +335,9 @@ export default function StackedGroupedChart({
                             width={x0.bandwidth()}
                             height={animFor.h as any}
                             fill={color(layer.key) as string}
-                            rx={4}
+                            rx={2}
+                            stroke="#ffffff"
+                            strokeWidth={1}
                           />
                         );
                       }
@@ -326,7 +355,9 @@ export default function StackedGroupedChart({
                           width={x0.bandwidth()}
                           height={h}
                           fill={color(layer.key) as string}
-                          rx={4}
+                          rx={2}
+                          stroke="#ffffff"
+                          strokeWidth={1}
                         />
                       );
                     })}
@@ -359,7 +390,9 @@ export default function StackedGroupedChart({
                           width={x1.bandwidth()}
                           height={animFor.h as any}
                           fill={color(s.key) as string}
-                          rx={4}
+                          rx={2}
+                          stroke="#ffffff"
+                          strokeWidth={1}
                         />
                       );
                     }
@@ -374,7 +407,9 @@ export default function StackedGroupedChart({
                         width={x1.bandwidth()}
                         height={barH}
                         fill={color(s.key) as string}
-                        rx={4}
+                        rx={2}
+                        stroke="#ffffff"
+                        strokeWidth={1}
                       />
                     );
                   })}
