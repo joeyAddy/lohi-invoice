@@ -68,7 +68,8 @@ export default function StackedGroupedChart({
     return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
   }, [categories]);
 
-  const margins = { top: 8, right: 16, bottom: 28, left: 16 };
+  // increase left margin to make room for y-axis labels so they aren't clipped
+  const margins = { top: 8, right: 16, bottom: 28, left: 44 };
   const innerWidth = Math.max(0, width - margins.left - margins.right);
   const innerHeight = Math.max(0, height - margins.top - margins.bottom) + 40;
 
@@ -272,41 +273,43 @@ export default function StackedGroupedChart({
 
       <View
         style={{
-          paddingLeft: margins.left,
-          paddingRight: margins.right,
           paddingTop: 8,
           marginBottom: 16,
         }}
       >
-        <Svg width={innerWidth} height={innerHeight + margins.bottom}>
-          <G y={margins.top}>
+        <Svg width={width} height={innerHeight + margins.top + margins.bottom}>
+          <G transform={`translate(${margins.left},${margins.top})`}>
             {/* horizontal grid lines and y labels (very subtle) */}
-            {(d3 ? d3.range(5) : [0, 1, 2, 3, 4]).map((i: number) => {
-              const v = (yMax / 4) * i;
-              const yPos = y(v);
-              return (
-                <G key={`grid-${i}`}>
-                  <Rect
-                    x={0}
-                    y={yPos}
-                    width={innerWidth}
-                    height={1}
-                    fill={"#e6f0f8"}
-                    opacity={0.9}
-                  />
-                  <SvgText
-                    x={-8}
-                    y={yPos + 4}
-                    fontSize={10}
-                    fill={"#6b7280"} // tailwind gray-500
-                    textAnchor="end"
-                    fontFamily={"DMSans-Regular"}
-                  >
-                    {`${Math.round(v)}k`}
-                  </SvgText>
-                </G>
-              );
-            })}
+            {(() => {
+              const ticks = y.ticks(6);
+              return ticks.map((v: number, idx: number) => {
+                const yPos = y(v);
+                // format as thousands with 'k' suffix
+                const label = v >= 1000 ? `${Math.round(v / 1000)}k` : `${v}k`;
+                return (
+                  <G key={`grid-${idx}`}>
+                    <Rect
+                      x={0}
+                      y={yPos}
+                      width={innerWidth}
+                      height={1}
+                      fill={"#e6f0f8"}
+                      opacity={0.9}
+                    />
+                    <SvgText
+                      x={-8}
+                      y={yPos + 4}
+                      fontSize={10}
+                      fill={"#6b7280"} // tailwind gray-500
+                      textAnchor="end"
+                      fontFamily={"DMSans-Regular"}
+                    >
+                      {label}
+                    </SvgText>
+                  </G>
+                );
+              });
+            })()}
 
             {/* baseline */}
             <Rect

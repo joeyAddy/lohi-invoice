@@ -4,8 +4,8 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CreateInvoiceButton from "../../components/invoices/create-Invoice-button";
+import InvoicesList from "../../components/invoices/invoices-list";
 import InvoicesStats from "../../components/invoices/invoices-stats";
-import InvoicesList from "../../components/invoices/InvoicesList";
 
 export default function InvoicesScreen() {
   const handleBack = () => {

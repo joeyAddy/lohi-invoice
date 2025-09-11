@@ -4,7 +4,7 @@ export { default as InvoiceCompanyInfo } from "./invoice-company-info";
 export { default as InvoiceHeaderCard } from "./invoice-header-card";
 export { default as InvoiceItem } from "./invoice-item";
 export { default as InvoiceItemDetails } from "./invoice-item-details";
+export { default as InvoicesList } from "./invoices-list";
 export { default as InvoicesStats } from "./invoices-stats";
-export { default as InvoicesList } from "./InvoicesList";
 export { default as LineItem } from "./line-item";
 export { default as StatusBadge } from "./status-badge";
