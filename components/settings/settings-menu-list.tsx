@@ -1,13 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-
-export interface MenuItem {
-  key: string;
-  label: string;
-  icon?: string;
-  destructive?: boolean; // renders in red when true
-}
+import { MenuItem } from "../../interfaces/settings";
 
 type Props = {
   items?: MenuItem[];
@@ -15,6 +10,7 @@ type Props = {
 };
 
 export default function SettingsMenuList({ items, title = "Setting" }: Props) {
+  const router = useRouter();
   return (
     <View className="mt-6">
       <View className="px-2 pb-2">
@@ -28,10 +24,31 @@ export default function SettingsMenuList({ items, title = "Setting" }: Props) {
           const isLast = idx === items.length - 1;
           const iconBg = item.destructive ? "#ffecec" : undefined;
           const color = item.destructive ? "#c90000" : "#1b365d"; // destructive text/icon color
+          const handlePress = async () => {
+            if (item.isItemAPage && item.route) {
+              router.push(item.route);
+              return;
+            }
+
+            if (!item.isItemAPage && item.onPress) {
+              try {
+                await item.onPress();
+              } catch (err) {
+                console.warn("Settings item action failed", err);
+              }
+              return;
+            }
+
+            console.warn(
+              "No route or action provided for settings item:",
+              item.key
+            );
+          };
 
           return (
             <TouchableOpacity
               key={item.key}
+              onPress={handlePress}
               activeOpacity={0.7}
               className="flex-row items-center px-4 py-3"
               style={

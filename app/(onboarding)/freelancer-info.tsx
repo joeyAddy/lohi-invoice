@@ -5,6 +5,8 @@ import {
   LocationInput,
   TimezoneInput,
 } from "@/components/ui/inputs";
+import { store } from "@/lib/store";
+import { loginSuccess } from "@/lib/store/slices/authSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -12,11 +14,11 @@ import { Alert, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/shared/header";
 import Badge from "../../components/ui/badge";
-import { CreateAgencyRequest } from "../../interfaces/agency";
+import { CreateFreelancerRequest } from "../../interfaces/freelancer";
 import { CurrencyData } from "../../lib/data/currencies";
 import { TimezoneData } from "../../lib/data/timezones";
 import { useOnboarding } from "../../lib/hooks/useOnboarding";
-import { validateAgencyInfoForm } from "../../lib/utils/validation";
+import { validateFreelancerInfoForm } from "../../lib/utils/validation";
 
 // Type definitions
 interface LocationData {
@@ -32,7 +34,7 @@ interface SelectedLocation {
 }
 
 export default function FreelancerInfoScreen() {
-  const { updateAgencyInfo, isUpdatingAgencyInfo } = useOnboarding();
+  const { updateFreelancerInfo, isUpdatingFreelancerInfo } = useOnboarding();
 
   // Form state
   const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>({
@@ -56,9 +58,8 @@ export default function FreelancerInfoScreen() {
     region: "America",
   });
 
-  const [formData, setFormData] = useState<CreateAgencyRequest>({
-    legalName: "",
-    displayName: "",
+  const [formData, setFormData] = useState<CreateFreelancerRequest>({
+    professionalName: "",
     taxId: "",
     address: {
       street: "",
@@ -68,8 +69,11 @@ export default function FreelancerInfoScreen() {
       country: "",
     },
     website: "",
-    currency: "USD" as CreateAgencyRequest["currency"],
+    currency: "USD" as CreateFreelancerRequest["currency"],
     timezone: "America/New_York",
+    profession: "",
+    bio: "",
+    portfolioUrl: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -92,7 +96,7 @@ export default function FreelancerInfoScreen() {
     setSelectedCurrency(currency);
     setFormData((prev) => ({
       ...prev,
-      currency: currency.code as CreateAgencyRequest["currency"],
+      currency: currency.code as CreateFreelancerRequest["currency"],
     }));
   };
 
@@ -114,12 +118,64 @@ export default function FreelancerInfoScreen() {
   };
 
   const handleContinue = async () => {
-    const validation = validateAgencyInfoForm(formData);
+    // Temporary: Set up dummy authenticated state for UI testing
+    setTimeout(() => {
+      // Create dummy user with completed freelancer setup
+      const dummyUser = {
+        id: "dummy-user-123",
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@johndoedev.com",
+        isEmailVerified: true,
+        avatar: undefined,
+        phone: "+1 (555) 123-4567",
+        createdAt: "2024-01-01T00:00:00Z",
+        updatedAt: "2024-01-01T00:00:00Z",
+        onboardingStep: "complete" as const,
+        agency: null,
+        freelancer: {
+          id: "dummy-freelancer-456",
+          professionalName: "John Doe",
+          taxId: "123-45-6789",
+          address: {
+            street: "123 Creative Lane",
+            city: "San Francisco",
+            state: "CA",
+            postalCode: "94102",
+            country: "United States",
+          },
+          phone: "+1 (555) 123-4567",
+          email: "john@johndoedev.com",
+          website: "https://johndoedev.com",
+          logoUrl: undefined,
+          currency: "USD" as const,
+          timezone: "America/Los_Angeles",
+          profession: "Full Stack Developer",
+          bio: "Passionate developer specializing in React, Node.js, and mobile app development with 5+ years of experience.",
+          portfolioUrl: "https://portfolio.johndoedev.com",
+          createdAt: "2024-01-01T00:00:00Z",
+          updatedAt: "2024-01-01T00:00:00Z",
+        },
+      };
+
+      // Dispatch dummy login success to Redux store
+      store.dispatch(
+        loginSuccess({
+          user: dummyUser,
+          token: "dummy-jwt-token-for-testing",
+          refreshToken: "dummy-refresh-token-for-testing",
+        })
+      );
+
+      // Navigate to tabs
+      router.push("/(tabs)" as any);
+    }, 2000); // Wait 2 seconds before navigating
+    const validation = validateFreelancerInfoForm(formData);
 
     if (!validation.isFormValid) {
       const newErrors: Record<string, string> = {};
-      if (validation.legalName.error)
-        newErrors.legalName = validation.legalName.error;
+      if (validation.professionalName.error)
+        newErrors.professionalName = validation.professionalName.error;
       if (validation.address.street.error)
         newErrors.street = validation.address.street.error;
       if (validation.address.city.error)
@@ -137,12 +193,8 @@ export default function FreelancerInfoScreen() {
       return;
     }
 
-    setTimeout(() => {
-      router.replace("/(tabs)" as any);
-    }, 2000); // Wait 2 seconds before navigating to home
-
     try {
-      await updateAgencyInfo(formData);
+      await updateFreelancerInfo(formData);
     } catch {
       Alert.alert(
         "Error",
@@ -177,31 +229,34 @@ export default function FreelancerInfoScreen() {
           <View className="space-y-6">
             {/* Business/Professional Name */}
             <DefaultInput
-              placeholder="Your business or professional name"
-              value={formData.legalName}
-              onChangeText={(value) => handleInputChange("legalName", value)}
-              error={errors.legalName}
+              placeholder="Your professional name or brand"
+              value={formData.professionalName}
+              onChangeText={(value) =>
+                handleInputChange("professionalName", value)
+              }
+              error={errors.professionalName}
               leftIcon={
                 <Ionicons name="person-outline" size={20} color="#102138" />
               }
               className="mb-6"
             />
-
-            {/* Display Name */}
+            {/* Website */}
             <DefaultInput
-              placeholder="How clients see your name"
-              value={formData.displayName || ""}
-              onChangeText={(value) => handleInputChange("displayName", value)}
-              error={errors.displayName}
+              placeholder="https://www.portfolio.com (optional)"
+              value={formData.website || ""}
+              onChangeText={(value) => handleInputChange("website", value)}
+              error={errors.website}
+              keyboardType="url"
+              autoCapitalize="none"
               leftIcon={
-                <Ionicons name="text-outline" size={20} color="#102138" />
+                <Ionicons name="globe-outline" size={20} color="#102138" />
               }
               className="mb-6"
             />
 
             {/* Tax ID */}
             <DefaultInput
-              placeholder="e.g., 123-45-6789 or EIN: 12-3456789"
+              placeholder="e.g., EIN: 12-3456789 (optional)"
               value={formData.taxId || ""}
               onChangeText={(value) => handleInputChange("taxId", value)}
               error={errors.taxId}
@@ -213,7 +268,7 @@ export default function FreelancerInfoScreen() {
 
             {/* Street Address */}
             <DefaultInput
-              placeholder="Enter your business street address"
+              placeholder="Enter your street address"
               value={formData.address.street}
               onChangeText={(value) => handleInputChange("street", value)}
               error={errors.street}
@@ -222,7 +277,6 @@ export default function FreelancerInfoScreen() {
               }
               className="mb-6"
             />
-
             {/* Postal Code */}
             <DefaultInput
               placeholder="Enter your postal code"
@@ -236,20 +290,6 @@ export default function FreelancerInfoScreen() {
                   size={20}
                   color="#102138"
                 />
-              }
-              className="mb-6"
-            />
-
-            {/* Website */}
-            <DefaultInput
-              placeholder="https://www.yourportfolio.com"
-              value={formData.website || ""}
-              onChangeText={(value) => handleInputChange("website", value)}
-              error={errors.website}
-              keyboardType="url"
-              autoCapitalize="none"
-              leftIcon={
-                <Ionicons name="globe-outline" size={20} color="#102138" />
               }
               className="mb-6"
             />
@@ -293,8 +333,8 @@ export default function FreelancerInfoScreen() {
             <Button
               onPress={handleContinue}
               size="lg"
-              disabled={isUpdatingAgencyInfo}
-              isLoading={isUpdatingAgencyInfo}
+              disabled={isUpdatingFreelancerInfo}
+              isLoading={isUpdatingFreelancerInfo}
             >
               Continue
             </Button>

@@ -17,6 +17,8 @@ export interface AgencyDetails {
   logoUrl?: string;
   currency: "USD" | "EUR" | "GBP" | "CAD" | "AUD" | "JPY"; // Default currency for invoices
   timezone: string; // e.g., 'America/New_York', 'Europe/London'
+  businessType?: string; // e.g., "Marketing Agency", "Software Development", "Consulting"
+  industry?: string; // e.g., "Technology", "Healthcare", "Finance"
   createdAt: string;
   updatedAt: string;
 }
@@ -39,6 +41,8 @@ export interface CreateAgencyRequest {
   logoUrl?: string;
   currency: "USD" | "EUR" | "GBP" | "CAD" | "AUD" | "JPY";
   timezone: string;
+  businessType?: string; // e.g., "Marketing Agency", "Software Development", "Consulting"
+  industry?: string; // e.g., "Technology", "Healthcare", "Finance"
 }
 
 export interface UpdateAgencyRequest extends Partial<CreateAgencyRequest> {

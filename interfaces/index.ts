@@ -2,12 +2,13 @@
 
 // User types
 export type {
+  AgencyUser,
   ChangePasswordRequest,
+  FreelancerUser,
   UpdateOnboardingStepRequest,
   UpdateUserProfileRequest,
   User,
   UserAccount,
-  UserWithAgency,
 } from "./user";
 
 // Agency types
@@ -16,6 +17,13 @@ export type {
   CreateAgencyRequest,
   UpdateAgencyRequest,
 } from "./agency";
+
+// Freelancer types
+export type {
+  CreateFreelancerRequest,
+  FreelancerDetails,
+  UpdateFreelancerRequest,
+} from "./freelancer";
 
 // Auth types
 export type {
@@ -38,7 +46,11 @@ export type {
 export type {
   AgencyInfoRequest,
   AgencyLogoRequest,
+  CompleteAgencyOnboardingRequest,
+  CompleteFreelancerOnboardingRequest,
   CompleteOnboardingRequest,
+  FreelancerInfoRequest,
+  FreelancerLogoRequest,
   InvoiceTemplateRequest,
   OnboardingStepResponse,
   PersonalInfoRequest,

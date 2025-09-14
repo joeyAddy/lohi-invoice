@@ -25,6 +25,8 @@ export const ENDPOINTS = {
   PERSONAL_INFO: "/onboarding/personal-info",
   COMPANY_INFO: "/onboarding/agency-info",
   COMPANY_LOGO: "/onboarding/agency-logo",
+  FREELANCER_INFO: "/onboarding/freelancer-info",
+  FREELANCER_LOGO: "/onboarding/freelancer-logo",
   INVOICE_TEMPLATE: "/onboarding/invoice-template",
   COMPLETE_ONBOARDING: "/onboarding/complete",
   PROFILE_TYPE: "/onboarding/profile-type",
@@ -32,6 +34,10 @@ export const ENDPOINTS = {
   // Agency endpoints
   COMPANIES: "/companies",
   COMPANY_BY_ID: (id: string) => `/companies/${id}`,
+
+  // Freelancer endpoints
+  FREELANCERS: "/freelancers",
+  FREELANCER_BY_ID: (id: string) => `/freelancers/${id}`,
 
   // Invoice endpoints (for future use)
   INVOICES: "/invoices",

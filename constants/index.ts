@@ -1,2 +1,3 @@
-export * from "./Colors";
-export * from "./Fonts";
+export * from "./colors";
+export * from "./fonts";
+export * from "./settings-menu-constants";

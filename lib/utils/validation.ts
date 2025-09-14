@@ -199,6 +199,8 @@ export const validateAgencyInfoForm = (data: {
   website?: string;
   currency: string;
   timezone: string;
+  businessType?: string;
+  industry?: string;
 }) => {
   const legalNameValidation = validateRequired(
     data.legalName,
@@ -260,5 +262,102 @@ export const validateAgencyInfoForm = (data: {
       currencyValidation.isValid &&
       timezoneValidation.isValid &&
       websiteValidation.isValid,
+  };
+};
+
+// Validate freelancer info form
+export const validateFreelancerInfoForm = (data: {
+  professionalName: string;
+  taxId?: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  website?: string;
+  currency: string;
+  timezone: string;
+  profession?: string;
+  bio?: string;
+  portfolioUrl?: string;
+}) => {
+  const professionalNameValidation = validateRequired(
+    data.professionalName,
+    "Professional name"
+  );
+
+  // Address validations
+  const streetValidation = validateRequired(
+    data.address.street,
+    "Street address"
+  );
+  const cityValidation = validateRequired(data.address.city, "City");
+  const stateValidation = validateRequired(
+    data.address.state,
+    "State/Province"
+  );
+  const postalCodeValidation = validateRequired(
+    data.address.postalCode,
+    "Postal code"
+  );
+  const countryValidation = validateRequired(data.address.country, "Country");
+  const currencyValidation = validateRequired(data.currency, "Currency");
+  const timezoneValidation = validateRequired(data.timezone, "Timezone");
+
+  // Website validation (optional, but validate format if provided)
+  let websiteValidation: ValidationResult = { isValid: true };
+  if (data.website && data.website.trim()) {
+    const urlRegex =
+      /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    if (!urlRegex.test(data.website.trim())) {
+      websiteValidation = {
+        isValid: false,
+        error: "Please enter a valid website URL",
+      };
+    }
+  }
+
+  // Portfolio URL validation (optional, but validate format if provided)
+  let portfolioUrlValidation: ValidationResult = { isValid: true };
+  if (data.portfolioUrl && data.portfolioUrl.trim()) {
+    const urlRegex =
+      /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    if (!urlRegex.test(data.portfolioUrl.trim())) {
+      portfolioUrlValidation = {
+        isValid: false,
+        error: "Please enter a valid portfolio URL",
+      };
+    }
+  }
+
+  return {
+    professionalName: professionalNameValidation,
+    taxId: { isValid: true }, // Optional field
+    address: {
+      street: streetValidation,
+      city: cityValidation,
+      state: stateValidation, // Required field
+      postalCode: postalCodeValidation,
+      country: countryValidation,
+    },
+    website: websiteValidation,
+    portfolioUrl: portfolioUrlValidation,
+    profession: { isValid: true }, // Optional field
+    bio: { isValid: true }, // Optional field
+    currency: currencyValidation,
+    timezone: timezoneValidation,
+    isFormValid:
+      professionalNameValidation.isValid &&
+      streetValidation.isValid &&
+      cityValidation.isValid &&
+      stateValidation.isValid &&
+      postalCodeValidation.isValid &&
+      countryValidation.isValid &&
+      currencyValidation.isValid &&
+      timezoneValidation.isValid &&
+      websiteValidation.isValid &&
+      portfolioUrlValidation.isValid,
   };
 };

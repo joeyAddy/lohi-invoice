@@ -5,6 +5,8 @@ import {
   LocationInput,
   TimezoneInput,
 } from "@/components/ui/inputs";
+import { store } from "@/lib/store";
+import { loginSuccess } from "@/lib/store/slices/authSlice";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -100,6 +102,8 @@ export default function AgencyInfoScreen() {
     website: "",
     currency: "USD",
     timezone: "America/New_York",
+    businessType: "",
+    industry: "",
   });
 
   const [errors, setErrors] = useState<Record<string, any>>({});
@@ -126,6 +130,57 @@ export default function AgencyInfoScreen() {
   };
 
   const handleContinue = async () => {
+    // Temporary: Set up dummy authenticated state for UI testing
+    setTimeout(() => {
+      // Create dummy user with completed agency setup
+      const dummyUser = {
+        id: "dummy-user-123",
+        email: "test@example.com",
+        firstName: "John",
+        lastName: "Doe",
+        isEmailVerified: true,
+        avatar: undefined,
+        phone: "+1 (555) 123-4567",
+        createdAt: "2024-01-01T00:00:00Z",
+        updatedAt: "2024-01-01T00:00:00Z",
+        onboardingStep: "complete" as const,
+        freelancer: null,
+        agency: {
+          id: "dummy-agency-456",
+          legalName: "John Doe Freelancing",
+          displayName: "JD Creative",
+          taxId: "123-45-6789",
+          address: {
+            street: "123 Main Street",
+            city: "New York",
+            state: "NY",
+            postalCode: "10001",
+            country: "United States",
+          },
+          phone: "+1 (555) 123-4567",
+          website: "https://jdcreative.com",
+          logoUrl: undefined,
+          currency: "USD" as const,
+          timezone: "America/New_York",
+          userId: "dummy-user-123",
+          createdAt: "2024-01-01T00:00:00Z",
+          updatedAt: "2024-01-01T00:00:00Z",
+        },
+      };
+
+      // Dispatch dummy login success to Redux store
+      store.dispatch(
+        loginSuccess({
+          user: dummyUser,
+          token: "dummy-jwt-token-for-testing",
+          refreshToken: "dummy-refresh-token-for-testing",
+        })
+      );
+
+      // Navigate to tabs
+      router.push("/(tabs)" as any);
+    }, 2000); // Wait 2 seconds before navigating
+
     const validation = validateAgencyInfoForm(formData);
 
     if (!validation.isFormValid) {
@@ -144,10 +199,6 @@ export default function AgencyInfoScreen() {
       });
       return;
     }
-
-    setTimeout(() => {
-      router.replace("/(tabs)" as any);
-    }, 2000); // Wait 2 seconds before navigating to home
 
     try {
       await updateAgencyInfo(formData);

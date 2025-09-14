@@ -2,6 +2,8 @@ import { EndpointBuilder } from "@reduxjs/toolkit/query/react";
 import type {
   AgencyInfoRequest,
   AgencyLogoRequest,
+  FreelancerInfoRequest,
+  FreelancerLogoRequest,
   InvoiceTemplateRequest,
   OnboardingStepResponse,
   PersonalInfoRequest,
@@ -45,6 +47,18 @@ export const onboardingEndpoints = (
     }
   ),
 
+  updateFreelancerInfo: builder.mutation<
+    OnboardingStepResponse,
+    FreelancerInfoRequest
+  >({
+    query: (data) => ({
+      url: ENDPOINTS.FREELANCER_INFO,
+      method: "POST",
+      body: data,
+    }),
+    invalidatesTags: ["User", "Freelancer"],
+  }),
+
   uploadAgencyLogo: builder.mutation<OnboardingStepResponse, AgencyLogoRequest>(
     {
       query: (data) => ({
@@ -55,6 +69,18 @@ export const onboardingEndpoints = (
       invalidatesTags: ["User", "Agency"],
     }
   ),
+
+  uploadFreelancerLogo: builder.mutation<
+    OnboardingStepResponse,
+    FreelancerLogoRequest
+  >({
+    query: (data) => ({
+      url: ENDPOINTS.FREELANCER_LOGO,
+      method: "POST",
+      body: data,
+    }),
+    invalidatesTags: ["User", "Freelancer"],
+  }),
 
   selectInvoiceTemplate: builder.mutation<
     OnboardingStepResponse,

@@ -70,6 +70,7 @@ const Login = () => {
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",
         onboardingStep: "complete" as const,
+        freelancer: null,
         agency: {
           id: "dummy-agency-456",
           legalName: "John Doe Freelancing",

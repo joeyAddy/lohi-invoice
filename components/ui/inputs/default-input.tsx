@@ -69,10 +69,36 @@ const DefaultInput = React.forwardRef<TextInput, DefaultInputProps>(
     // Error text classes
     const errorTextClasses = "text-label-xs text-error-500 mt-3xs";
 
+    // Get icon color based on state
+    const getIconColor = () => {
+      if (disabled) return "#bbbbbb"; // neutral-400
+      if (error && !disabled) return "#d10000"; // error-500
+      return "#102138"; // neutral-600 (default)
+    };
+
+    // Clone and modify the left icon with the appropriate color
+    const renderLeftIcon = () => {
+      if (!leftIcon) return null;
+
+      // If it's an Ionicon, clone it with the new color
+      if (
+        React.isValidElement(leftIcon) &&
+        leftIcon.type &&
+        (leftIcon.type as any).displayName === "Ionicons"
+      ) {
+        return React.cloneElement(leftIcon as React.ReactElement<any>, {
+          color: getIconColor(),
+        });
+      }
+
+      // For other icon types, just return as-is
+      return leftIcon;
+    };
+
     return (
       <View className={containerClasses}>
         <View className={inputContainerClasses}>
-          {leftIcon && <View className="mr-3xs">{leftIcon}</View>}
+          {leftIcon && <View className="mr-3xs">{renderLeftIcon()}</View>}
 
           <TextInput
             ref={ref}

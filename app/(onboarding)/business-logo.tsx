@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const AgencyLogo = () => {
   const [logoUri, setLogoUri] = useState<string | null>(null);
 
-  const { uploadAgencyLogo, isUploadingLogo } = useOnboarding();
+  const { uploadAgencyLogo, isUploadingAgencyLogo } = useOnboarding();
 
   const pickImage = async () => {
     // For now, we'll use a placeholder - you can add expo-image-picker later
@@ -112,7 +112,7 @@ const AgencyLogo = () => {
           <Button
             size="lg"
             onPress={handleContinue}
-            isLoading={isUploadingLogo}
+            isLoading={isUploadingAgencyLogo}
           >
             Continue
           </Button>

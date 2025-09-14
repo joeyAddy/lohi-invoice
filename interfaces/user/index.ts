@@ -1,4 +1,5 @@
 import type { AgencyDetails } from "../agency";
+import type { FreelancerDetails } from "../freelancer";
 
 // Base user interface
 interface BaseUser {
@@ -11,23 +12,32 @@ interface BaseUser {
   phone?: string;
   createdAt: string;
   updatedAt: string;
-  onboardingStep: "account" | "agency" | "complete"; // Track onboarding progress
+  onboardingStep: "account" | "agency" | "freelancer" | "complete"; // Track onboarding progress
 }
 
-// User before completing agency setup
+// User before completing setup
 export interface UserAccount extends BaseUser {
   agency: null;
-  onboardingStep: "account" | "agency";
+  freelancer: null;
+  onboardingStep: "account" | "agency" | "freelancer";
 }
 
 // User with completed agency setup
-export interface UserWithAgency extends BaseUser {
+export interface AgencyUser extends BaseUser {
   agency: AgencyDetails;
+  freelancer: null;
+  onboardingStep: "complete";
+}
+
+// User with completed freelancer setup
+export interface FreelancerUser extends BaseUser {
+  agency: null;
+  freelancer: FreelancerDetails;
   onboardingStep: "complete";
 }
 
 // Union type for all user states
-export type User = UserAccount | UserWithAgency;
+export type User = UserAccount | AgencyUser | FreelancerUser;
 
 // Request types for user operations
 export interface UpdateUserProfileRequest {
@@ -44,5 +54,5 @@ export interface ChangePasswordRequest {
 
 // Onboarding step update
 export interface UpdateOnboardingStepRequest {
-  onboardingStep: "account" | "agency" | "complete";
+  onboardingStep: "account" | "agency" | "freelancer" | "complete";
 }
