@@ -128,6 +128,10 @@ export default function UserProfileEditScreen() {
     }
   };
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   if (!user) {
     return null;
   }
@@ -141,6 +145,7 @@ export default function UserProfileEditScreen() {
       <Header
         title="Edit Profile"
         leftIcon="chevron-back"
+        onPressLeftIcon={handleGoBack}
         className="px-4 pt-2"
       />
 

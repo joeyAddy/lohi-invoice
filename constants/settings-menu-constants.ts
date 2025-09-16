@@ -9,6 +9,13 @@ export const BUSINESS_SETTINGS: MenuItem[] = [
     isItemAPage: true,
   },
   {
+    key: "brand",
+    label: "Brand",
+    icon: "color-palette",
+    route: "/settings/(business)/brand",
+    isItemAPage: true,
+  },
+  {
     key: "template",
     label: "Template",
     icon: "copy",

@@ -3,6 +3,7 @@ export type SettingsRoute =
   | "/settings/user-profile-edit"
   // Business settings
   | "/settings/(business)/business-info"
+  | "/settings/(business)/brand"
   | "/settings/(business)/template"
   | "/settings/(business)/default-email"
   | "/settings/(business)/invoice-number"

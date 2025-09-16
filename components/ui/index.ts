@@ -3,3 +3,6 @@ export { default as Button } from "./button";
 
 export type { BadgeProps } from "./badge";
 export type { ButtonProps } from "./button";
+
+// Forms
+export * from "./forms";

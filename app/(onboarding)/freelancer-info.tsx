@@ -1,123 +1,19 @@
-import { Button } from "@/components/ui";
-import {
-  CurrencyInput,
-  DefaultInput,
-  LocationInput,
-  TimezoneInput,
-} from "@/components/ui/inputs";
+import { FreelancerForm } from "@/components/ui";
 import { store } from "@/lib/store";
 import { loginSuccess } from "@/lib/store/slices/authSlice";
-import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
 import { Alert, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/shared/header";
 import Badge from "../../components/ui/badge";
 import { CreateFreelancerRequest } from "../../interfaces/freelancer";
-import { CurrencyData } from "../../lib/data/currencies";
-import { TimezoneData } from "../../lib/data/timezones";
 import { useOnboarding } from "../../lib/hooks/useOnboarding";
-import { validateFreelancerInfoForm } from "../../lib/utils/validation";
-
-// Type definitions
-interface LocationData {
-  name: string;
-  code: string;
-  type: "country" | "state" | "city";
-}
-
-interface SelectedLocation {
-  country: LocationData | null;
-  state: LocationData | null;
-  city: LocationData | null;
-}
 
 export default function FreelancerInfoScreen() {
   const { updateFreelancerInfo, isUpdatingFreelancerInfo } = useOnboarding();
 
-  // Form state
-  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>({
-    country: null,
-    state: null,
-    city: null,
-  });
-
-  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyData>({
-    code: "USD",
-    name: "US Dollar",
-    symbol: "$",
-    region: "North America",
-    popular: true,
-  });
-
-  const [selectedTimezone, setSelectedTimezone] = useState<TimezoneData>({
-    value: "America/New_York",
-    label: "Eastern Time (New York)",
-    offset: "-05:00",
-    region: "America",
-  });
-
-  const [formData, setFormData] = useState<CreateFreelancerRequest>({
-    professionalName: "",
-    taxId: "",
-    address: {
-      street: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
-    },
-    website: "",
-    currency: "USD" as CreateFreelancerRequest["currency"],
-    timezone: "America/New_York",
-    profession: "",
-    bio: "",
-    portfolioUrl: "",
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // Handlers for input components
-  const handleLocationChange = (location: SelectedLocation) => {
-    setSelectedLocation(location);
-    setFormData((prev) => ({
-      ...prev,
-      address: {
-        ...prev.address,
-        country: location.country?.name || "",
-        state: location.state?.name || "",
-        city: location.city?.name || "",
-      },
-    }));
-  };
-
-  const handleCurrencyChange = (currency: CurrencyData) => {
-    setSelectedCurrency(currency);
-    setFormData((prev) => ({
-      ...prev,
-      currency: currency.code as CreateFreelancerRequest["currency"],
-    }));
-  };
-
-  const handleTimezoneChange = (timezone: TimezoneData) => {
-    setSelectedTimezone(timezone);
-    setFormData((prev) => ({
-      ...prev,
-      timezone: timezone.value,
-    }));
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
-
-  const handleContinue = async () => {
+  const handleSubmit = async (formData: CreateFreelancerRequest) => {
     // Temporary: Set up dummy authenticated state for UI testing
     setTimeout(() => {
       // Create dummy user with completed freelancer setup
@@ -170,28 +66,6 @@ export default function FreelancerInfoScreen() {
       // Navigate to tabs
       router.push("/(tabs)" as any);
     }, 2000); // Wait 2 seconds before navigating
-    const validation = validateFreelancerInfoForm(formData);
-
-    if (!validation.isFormValid) {
-      const newErrors: Record<string, string> = {};
-      if (validation.professionalName.error)
-        newErrors.professionalName = validation.professionalName.error;
-      if (validation.address.street.error)
-        newErrors.street = validation.address.street.error;
-      if (validation.address.city.error)
-        newErrors.city = validation.address.city.error;
-      if (validation.address.state.error)
-        newErrors.state = validation.address.state.error;
-      if (validation.address.postalCode.error)
-        newErrors.postalCode = validation.address.postalCode.error;
-      if (validation.address.country.error)
-        newErrors.country = validation.address.country.error;
-      if (validation.website.error)
-        newErrors.website = validation.website.error;
-
-      setErrors(newErrors);
-      return;
-    }
 
     try {
       await updateFreelancerInfo(formData);
@@ -226,119 +100,13 @@ export default function FreelancerInfoScreen() {
             </Text>
           </View>
 
-          <View className="space-y-6">
-            {/* Business/Professional Name */}
-            <DefaultInput
-              placeholder="Your professional name or brand"
-              value={formData.professionalName}
-              onChangeText={(value) =>
-                handleInputChange("professionalName", value)
-              }
-              error={errors.professionalName}
-              leftIcon={
-                <Ionicons name="person-outline" size={20} color="#102138" />
-              }
-              className="mb-6"
-            />
-            {/* Website */}
-            <DefaultInput
-              placeholder="https://www.portfolio.com (optional)"
-              value={formData.website || ""}
-              onChangeText={(value) => handleInputChange("website", value)}
-              error={errors.website}
-              keyboardType="url"
-              autoCapitalize="none"
-              leftIcon={
-                <Ionicons name="globe-outline" size={20} color="#102138" />
-              }
-              className="mb-6"
-            />
-
-            {/* Tax ID */}
-            <DefaultInput
-              placeholder="e.g., EIN: 12-3456789 (optional)"
-              value={formData.taxId || ""}
-              onChangeText={(value) => handleInputChange("taxId", value)}
-              error={errors.taxId}
-              leftIcon={
-                <Ionicons name="document-outline" size={20} color="#102138" />
-              }
-              className="mb-6"
-            />
-
-            {/* Street Address */}
-            <DefaultInput
-              placeholder="Enter your street address"
-              value={formData.address.street}
-              onChangeText={(value) => handleInputChange("street", value)}
-              error={errors.street}
-              leftIcon={
-                <Ionicons name="location-outline" size={20} color="#102138" />
-              }
-              className="mb-6"
-            />
-            {/* Postal Code */}
-            <DefaultInput
-              placeholder="Enter your postal code"
-              value={formData.address.postalCode}
-              onChangeText={(value) => handleInputChange("postalCode", value)}
-              error={errors.postalCode}
-              autoCapitalize="characters"
-              leftIcon={
-                <Ionicons
-                  name="mail-unread-outline"
-                  size={20}
-                  color="#102138"
-                />
-              }
-              className="mb-6"
-            />
-
-            {/* Regional Preferences Section */}
-            <View className="border-primary-500 border p-4 rounded-xs">
-              <Text className="text-b-1 text-gray-900 mb-4">
-                Regional Preferences
-              </Text>
-
-              {/* Location Input */}
-              <LocationInput
-                value={selectedLocation}
-                onChangeLocation={handleLocationChange}
-                error={errors.country}
-                showLabels={false}
-                variant="minimal"
-                className="mb-0"
-              />
-
-              {/* Currency */}
-              <CurrencyInput
-                value={selectedCurrency}
-                onChangeCurrency={handleCurrencyChange}
-                variant="minimal"
-                className="mb-0"
-              />
-
-              {/* Timezone */}
-              <TimezoneInput
-                value={selectedTimezone}
-                onChangeTimezone={handleTimezoneChange}
-                variant="minimal"
-                className="mb-0"
-              />
-            </View>
-          </View>
-
-          {/* Action Buttons */}
-          <View className="w-full mt-6 mb-12">
-            <Button
-              onPress={handleContinue}
-              size="lg"
-              disabled={isUpdatingFreelancerInfo}
-              isLoading={isUpdatingFreelancerInfo}
-            >
-              Continue
-            </Button>
-          </View>
+          <FreelancerForm
+            onSubmit={handleSubmit}
+            isLoading={isUpdatingFreelancerInfo}
+            submitButtonText="Continue"
+            showOptionalFields={false}
+            readOnlyFields={[]}
+          />
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -6,6 +6,7 @@ export type { AppDispatch, RootState } from "./store";
 export { useAppDispatch, useAppSelector } from "./hooks/redux";
 export { useAuth } from "./hooks/useAuth";
 export { useOnboarding } from "./hooks/useOnboarding";
+export { useSettings } from "./hooks/useSettings";
 
 // Data exports
 export {
