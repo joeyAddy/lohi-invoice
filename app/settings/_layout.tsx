@@ -7,6 +7,9 @@ export default function SettingsLayout() {
         headerShown: false,
       }}
     >
+      {/* User Profile Edit */}
+      <Stack.Screen name="user-profile-edit" />
+
       {/* Business Settings Group */}
       <Stack.Screen name="(business)" />
 

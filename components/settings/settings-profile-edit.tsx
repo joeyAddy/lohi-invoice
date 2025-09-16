@@ -1,14 +1,25 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
+import { useAppSelector } from "../../lib/hooks/redux";
+import { selectUser } from "../../lib/store/slices/authSlice";
 import ClientAvatar from "../home/client-avatar";
 
 export default function SettingsProfileEdit() {
-  const user = {
-    name: "Jansen Ackless",
-    email: "Jansen@gmail.com",
-    avatar: null,
-    businessName: "",
+  const user = useAppSelector(selectUser);
+
+  if (!user) {
+    return null; // or loading state
+  }
+
+  // Get business name from agency or freelancer profile
+  const businessName =
+    user.agency?.legalName || user.freelancer?.professionalName || "";
+  const displayName = `${user.firstName} ${user.lastName}`;
+
+  const handleEditPress = () => {
+    router.push("/settings/user-profile-edit");
   };
 
   return (
@@ -28,12 +39,17 @@ export default function SettingsProfileEdit() {
 
         <View className="flex-1">
           <Text className="text-lg font-bold text-neutral-900">
-            {user.name}
+            {displayName}
           </Text>
           <Text className="text-sm text-neutral-600">{user.email}</Text>
+          {businessName && (
+            <Text className="text-xs text-neutral-500 mt-1">
+              {businessName}
+            </Text>
+          )}
         </View>
 
-        <Pressable className="p-2">
+        <Pressable className="p-2" onPress={handleEditPress}>
           <FontAwesome
             name="pencil-square-o"
             size={20}

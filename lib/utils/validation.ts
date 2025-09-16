@@ -184,6 +184,42 @@ export const validatePersonalInfoForm = (
   };
 };
 
+// Validate update personal info form (for profile updates)
+export const validateUpdatePersonalInfoForm = (
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string
+) => {
+  const firstNameValidation = validateRequired(firstName, "First name");
+  const lastNameValidation = validateRequired(lastName, "Last name");
+  const emailValidation = validateEmail(email);
+
+  // Phone number is optional, so only validate format if provided
+  let phoneValidation: ValidationResult = { isValid: true };
+  if (phone && phone.trim()) {
+    const phoneRegex = /^[\+]?[\d\s\-\(\)]{7,}$/;
+    if (!phoneRegex.test(phone.trim())) {
+      phoneValidation = {
+        isValid: false,
+        error: "Please enter a valid phone number",
+      };
+    }
+  }
+
+  return {
+    firstName: firstNameValidation,
+    lastName: lastNameValidation,
+    email: emailValidation,
+    phone: phoneValidation,
+    isFormValid:
+      firstNameValidation.isValid &&
+      lastNameValidation.isValid &&
+      emailValidation.isValid &&
+      phoneValidation.isValid,
+  };
+};
+
 // Validate agency info form
 export const validateAgencyInfoForm = (data: {
   legalName: string;

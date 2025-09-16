@@ -24,7 +24,15 @@ export {
 export type { TimezoneData } from "./data/timezones";
 
 // Utility exports
-export * from "./utils/advancedValidation";
+// export * from "./utils/advancedValidation";
+export {
+  pickDocument,
+  pickImage,
+  showImagePicker,
+  takePhoto,
+  type ImagePickerOptions,
+  type ImagePickerResult,
+} from "./utils/imagePicker";
 export * from "./utils/validation";
 
 // Provider exports

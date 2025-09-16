@@ -55,6 +55,18 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
 
+    // Update user profile fields
+    updateUserProfile: (
+      state,
+      action: PayloadAction<
+        Partial<Pick<User, "firstName" | "lastName" | "phone" | "avatar">>
+      >
+    ) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
+
     // Update token
     updateToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
@@ -82,6 +94,7 @@ export const {
   setError,
   loginSuccess,
   updateUser,
+  updateUserProfile,
   updateToken,
   logout,
   clearError,

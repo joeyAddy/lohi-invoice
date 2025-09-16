@@ -1,4 +1,6 @@
 export type SettingsRoute =
+  // User profile
+  | "/settings/user-profile-edit"
   // Business settings
   | "/settings/(business)/business-info"
   | "/settings/(business)/template"
