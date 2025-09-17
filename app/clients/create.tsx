@@ -108,7 +108,6 @@ export default function CreateClient() {
       <Header
         title="Create Client"
         leftIcon="chevron-back"
-        onPressLeftIcon={() => router.back()}
         className="px-4 pt-2"
       />
 
@@ -219,8 +218,6 @@ export default function CreateClient() {
             onChangeText={(value: string) =>
               handleInputChange("address", value)
             }
-            multiline
-            numberOfLines={3}
             leftIcon={
               <Ionicons name="location-outline" size={20} color="#102138" />
             }

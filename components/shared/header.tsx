@@ -1,4 +1,5 @@
 import { Foundation, Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -19,13 +20,21 @@ const Header: React.FC<HeaderProps> = ({
   onPressRightIcon,
   className = "",
 }) => {
+  const handleLeftIconPress = () => {
+    if (leftIcon === "chevron-back") {
+      router.back();
+    } else if (onPressLeftIcon) {
+      onPressLeftIcon();
+    }
+  };
+
   return (
     <View className={`flex-row items-center justify-between pb-4 ${className}`}>
       {/* Left side */}
       <View className="w-12 h-12">
         {leftIcon && (
           <Pressable
-            onPress={onPressLeftIcon}
+            onPress={handleLeftIconPress}
             className="w-12 h-12 bg-gray-100 rounded-xs items-center justify-center"
           >
             <Ionicons name={leftIcon} size={20} color="#374151" />
