@@ -397,3 +397,49 @@ export const validateFreelancerInfoForm = (data: {
       portfolioUrlValidation.isValid,
   };
 };
+
+// Validate client form
+export const validateClientForm = (data: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  company?: string;
+  phone?: string;
+  address?: string;
+}) => {
+  const firstNameValidation = validateRequired(data.firstName, "First name");
+  const lastNameValidation = validateRequired(data.lastName, "Last name");
+  const emailValidation = validateEmail(data.email);
+
+  // Company is optional
+  const companyValidation: ValidationResult = { isValid: true };
+
+  // Phone validation (optional, but validate format if provided)
+  let phoneValidation: ValidationResult = { isValid: true };
+  if (data.phone && data.phone.trim()) {
+    const phoneRegex = /^[\+]?[\d\s\-\(\)]{7,}$/;
+    if (!phoneRegex.test(data.phone.trim())) {
+      phoneValidation = {
+        isValid: false,
+        error: "Please enter a valid phone number",
+      };
+    }
+  }
+
+  // Address is optional
+  const addressValidation: ValidationResult = { isValid: true };
+
+  return {
+    firstName: firstNameValidation,
+    lastName: lastNameValidation,
+    email: emailValidation,
+    company: companyValidation,
+    phone: phoneValidation,
+    address: addressValidation,
+    isFormValid:
+      firstNameValidation.isValid &&
+      lastNameValidation.isValid &&
+      emailValidation.isValid &&
+      phoneValidation.isValid,
+  };
+};

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "./constants/endpoints";
 import { agencyEndpoints } from "./endpoints/agency";
 import { authEndpoints } from "./endpoints/auth";
+import { clientEndpoints } from "./endpoints/client";
 import { freelancerEndpoints } from "./endpoints/freelancer";
 import { onboardingEndpoints } from "./endpoints/onboarding";
 import { userEndpoints } from "./endpoints/user";
@@ -27,13 +28,14 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "Agency", "Freelancer", "Invoice"], // Add more tag types as needed
+  tagTypes: ["User", "Agency", "Freelancer", "Client", "Invoice"], // Add more tag types as needed
   endpoints: (builder) => ({
     // Combine all endpoints
     ...authEndpoints(builder),
     ...userEndpoints(builder),
     ...agencyEndpoints(builder),
     ...freelancerEndpoints(builder),
+    ...clientEndpoints(builder),
     ...onboardingEndpoints(builder),
   }),
 });
@@ -69,6 +71,13 @@ export const {
   useCreateFreelancerMutation,
   useUpdateFreelancerMutation,
   useDeleteFreelancerMutation,
+
+  // Client hooks
+  useCreateClientMutation,
+  useUpdateClientMutation,
+  useGetClientQuery,
+  useGetClientsQuery,
+  useDeleteClientMutation,
 
   // Onboarding hooks
   useUpdatePersonalInfoMutation,

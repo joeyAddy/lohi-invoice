@@ -159,7 +159,7 @@ export default function BusinessInfo() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Header
-        title="Business Info"
+        title="Edit usiness Info"
         leftIcon="chevron-back"
         onPressLeftIcon={() => router.back()}
         className="px-4 pt-2"
@@ -170,16 +170,7 @@ export default function BusinessInfo() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 50 }}
       >
-        <View className="mt-6">
-          <Text className="text-2xl font-playfair-bold text-gray-900 mt-4 mb-2">
-            {userType === "agency"
-              ? "Agency Information"
-              : "Freelancer Information"}
-          </Text>
-          <Text className="text-b-2 leading-6 mb-6">
-            Update your business details for invoices and contracts.
-          </Text>
-
+        <View className="mt-4">
           {userType === "agency" ? (
             <AgencyForm
               initialData={getAgencyInitialData()}

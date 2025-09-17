@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 export default function CreateInvoiceButton() {
   const handleCreateInvoice = () => {
-    // TODO: Navigate to create invoice screen
-    console.log("Create new invoice");
+    router.push("/invoices/create");
   };
 
   return (

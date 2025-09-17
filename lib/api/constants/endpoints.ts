@@ -39,6 +39,10 @@ export const ENDPOINTS = {
   FREELANCERS: "/freelancers",
   FREELANCER_BY_ID: (id: string) => `/freelancers/${id}`,
 
+  // Client endpoints
+  CLIENTS: "/clients",
+  CLIENT_BY_ID: (id: string) => `/clients/${id}`,
+
   // Invoice endpoints (for future use)
   INVOICES: "/invoices",
   INVOICE_BY_ID: (id: string) => `/invoices/${id}`,

@@ -1,11 +1,12 @@
 import React from "react";
-import { View } from "react-native";
+import { DimensionValue, View } from "react-native";
 
 interface SeparatorProps {
   orientation?: "horizontal" | "vertical";
   type?: "solid" | "dashed";
   color?: string;
   thickness?: number;
+  height?: DimensionValue; // Custom height for vertical separators
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export default function Separator({
   type = "solid",
   color = "#FFFFFF33", // Hex white with 20% alpha
   thickness = 1,
+  height = 40, // Default height for vertical separators
   className = "",
 }: SeparatorProps) {
   const isHorizontal = orientation === "horizontal";
@@ -35,7 +37,7 @@ export default function Separator({
         style={{
           borderStyle: "dashed",
           [isHorizontal ? "borderTopWidth" : "borderLeftWidth"]: thickness,
-          ...(isHorizontal ? { width: "100%" } : { height: 40 }),
+          ...(isHorizontal ? { width: "100%" } : { height }),
           ...(borderColor && {
             [isHorizontal ? "borderTopColor" : "borderLeftColor"]: borderColor,
           }),
@@ -48,7 +50,7 @@ export default function Separator({
   const solidStyle = {
     ...(orientation === "horizontal"
       ? { height: thickness, width: "100%" as const }
-      : { width: thickness, height: 40 }),
+      : { width: thickness, height }),
     ...(actualColor && { backgroundColor: actualColor }),
   };
 

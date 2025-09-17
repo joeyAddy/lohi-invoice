@@ -21,7 +21,7 @@ export default function InvoicesScreen() {
         onPressLeftIcon={handleBack}
         rightIcon="add"
         onPressRightIcon={() => {
-          console.log("Show invoice menu");
+          router.push("/invoices/create");
         }}
         className="px-4 pt-2"
       />

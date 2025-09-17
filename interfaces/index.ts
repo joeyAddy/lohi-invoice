@@ -25,6 +25,14 @@ export type {
   UpdateFreelancerRequest,
 } from "./freelancer";
 
+// Client types
+export type {
+  ClientDetails,
+  ClientListResponse,
+  CreateClientRequest,
+  UpdateClientRequest,
+} from "./clients";
+
 // Auth types
 export type {
   AuthResponse,

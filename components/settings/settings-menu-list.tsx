@@ -2,7 +2,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
 import { MenuItem } from "../../interfaces/settings";
+import { logout } from "../../lib/store/slices/authSlice";
 
 type Props = {
   items?: MenuItem[];
@@ -11,6 +13,7 @@ type Props = {
 
 export default function SettingsMenuList({ items, title = "Setting" }: Props) {
   const router = useRouter();
+  const dispatch = useDispatch();
   return (
     <View className="mt-6">
       <View className="px-2 pb-2">
@@ -25,6 +28,17 @@ export default function SettingsMenuList({ items, title = "Setting" }: Props) {
           const iconBg = item.destructive ? "#ffecec" : undefined;
           const color = item.destructive ? "#c90000" : "#1b365d"; // destructive text/icon color
           const handlePress = async () => {
+            // Handle logout item
+            if (item.key === "logout") {
+              try {
+                dispatch(logout());
+                router.replace("/(authentication)/login");
+              } catch (err) {
+                console.warn("Logout failed", err);
+              }
+              return;
+            }
+
             if (item.isItemAPage && item.route) {
               router.push(item.route);
               return;
